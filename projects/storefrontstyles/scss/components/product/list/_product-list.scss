@@ -46,4 +46,33 @@
       padding: 0 35px 0 0;
     }
   }
+
+  .cx-sort {
+    margin-right: auto;
+
+    @include media-breakpoint-down(md) {
+      order: 2;
+      margin-right: 0;
+    }
+  }
+
+  .cx-pagination {
+    @include media-breakpoint-down(md) {
+      order: 1;
+    }
+  }
+
+  .cx-facet-mobile {
+    display: none;
+    @include media-breakpoint-down(md) {
+      order: 3;
+      display: block;
+    }
+  }
+
+  .cx-product-view {
+    @include media-breakpoint-down(md) {
+      order: 4;
+    }
+  }
 }
