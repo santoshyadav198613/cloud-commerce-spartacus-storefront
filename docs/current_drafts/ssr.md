@@ -7,8 +7,8 @@ The following steps can be performed to run your Spartacus shell app that includ
 Add the following *dev* dependencies to package.json:
 
 ```json
- "ts-loader": "^4.2.0”
- "webpack-cli": "^3.1.0”
+ "ts-loader": "^5.3.2”
+ "webpack-cli": "^3.3.2”
 ```
 
 Add the following configuration to your existing angular.json (under projects.storefrontapp.architect):
