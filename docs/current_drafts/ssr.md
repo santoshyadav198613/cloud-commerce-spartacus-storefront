@@ -4,11 +4,48 @@
 
 The following steps can be performed to run your Spartacus shell app that includes the Spartacus libraries in SSR mode.
 
+Add the following dependencies to package.json:
+
+```json
+"@angular/platform-server": "~8.0.0",
+"@nguniversal/express-engine": "^7.1.1"
+```
+
 Add the following *dev* dependencies to package.json:
 
 ```json
  "ts-loader": "^5.3.2”
  "webpack-cli": "^3.3.2”
+```
+
+Update the following files:
+
+### src/main.ts
+
+```typescript
+//from
+platformBrowserDynamic().bootstrapModule(AppModule).catch(err => console.error(err));
+//to
+document.addEventListener('DOMContentLoaded', () => {
+  platformBrowserDynamic().bootstrapModule(AppModule);
+});```
+```
+
+### src/app/app.module.ts
+
+```typescript
+//from:
+BrowserModule,
+//to
+BrowserModule.withServerTransition(),
+```
+
+### src/index.html
+
+Add the following meta attribute and replace OCC_BASE_URL with the URL of your backend instance:
+
+```html
+ <meta name="occ-backend-base-url" content="OCC_BASE_URL" />
 ```
 
 Add the following configuration to your existing angular.json (under projects.storefrontapp.architect):
@@ -49,6 +86,7 @@ Add the following files to your existing shell app:
 ```typescript
 export { AppServerModule } from './app/app.server.module';
 ```
+
 
 ### src/app/app.server.module
 
