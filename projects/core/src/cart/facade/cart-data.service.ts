@@ -29,6 +29,7 @@ export class CartDataService {
       });
     this.store.pipe(select(fromSelector.getCartContent)).subscribe(cart => {
       this._cart = cart;
+      debugger;
     });
   }
 

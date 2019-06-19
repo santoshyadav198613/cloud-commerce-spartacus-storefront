@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  Cart,
+  CartService,
+  RoutingConfigService,
+  RoutingService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-
-import {
-  RoutingService,
-  CartService,
-  Cart,
-  RoutingConfigService,
-} from '@spartacus/core';
 import { CheckoutConfig } from '../../../config/checkout-config';
 import { CheckoutStep } from '../../../model/checkout-step.model';
 
@@ -31,7 +30,7 @@ export class CheckoutProgressMobileTopComponent implements OnInit {
 
   ngOnInit(): void {
     this.steps = this.config.checkout.steps;
-    this.cart$ = this.cartService.getActive();
+    this.cart$ = this.cartService.activeCart$;
     this.routerState$ = this.routingService.getRouterState().pipe(
       tap(router => {
         this.activeStepUrl = router.state.context.id;

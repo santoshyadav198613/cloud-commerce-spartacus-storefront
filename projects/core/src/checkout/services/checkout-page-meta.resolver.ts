@@ -8,9 +8,9 @@ import {
   PageRobotsResolver,
   PageTitleResolver,
 } from '../../cms/page/page.resolvers';
+import { TranslationService } from '../../i18n/translation.service';
 import { Cart } from '../../model/cart.model';
 import { PageType } from '../../model/cms.model';
-import { TranslationService } from '../../i18n/translation.service';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +27,7 @@ export class CheckoutPageMetaResolver extends PageMetaResolver
   }
 
   resolve(): Observable<PageMeta> {
-    return this.cartService.getActive().pipe(
+    return this.cartService.activeCart$.pipe(
       switchMap(cart =>
         combineLatest([this.resolveTitle(cart), this.resolveRobots()])
       ),

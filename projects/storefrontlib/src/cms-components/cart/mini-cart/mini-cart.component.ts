@@ -12,12 +12,12 @@ import { ICON_TYPE } from '../../misc/icon/index';
 export class MiniCartComponent {
   iconTypes = ICON_TYPE;
 
-  quantity$: Observable<number> = this.cartService.getActive().pipe(
+  quantity$: Observable<number> = this.cartService.activeCart$.pipe(
     startWith({ deliveryItemsQuantity: 0 }),
     map(cart => cart.deliveryItemsQuantity || 0)
   );
 
-  total$: Observable<string> = this.cartService.getActive().pipe(
+  total$: Observable<string> = this.cartService.activeCart$.pipe(
     filter(cart => !!cart.totalPrice),
     map(cart => cart.totalPrice.formattedValue)
   );

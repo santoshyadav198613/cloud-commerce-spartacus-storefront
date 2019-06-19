@@ -38,6 +38,7 @@ export class AddToCartComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    debugger;
     if (this.productCode) {
       this.cartEntry$ = this.cartService.getEntry(this.productCode);
       this.hasStock = true;
@@ -87,7 +88,7 @@ export class AddToCartComponent implements OnInit {
 
     modalInstance = this.modalRef.componentInstance;
     modalInstance.entry$ = this.cartEntry$;
-    modalInstance.cart$ = this.cartService.getActive();
+    modalInstance.cart$ = this.cartService.activeCart$;
     modalInstance.loaded$ = this.cartService.getLoaded();
     modalInstance.quantity = this.quantity;
   }

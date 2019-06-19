@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-
-import { CartService, Cart, OrderEntry } from '@spartacus/core';
-
+import { Cart, CartService, OrderEntry } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -18,7 +16,7 @@ export class CartDetailsComponent implements OnInit {
   constructor(protected cartService: CartService) {}
 
   ngOnInit() {
-    this.cart$ = this.cartService.getActive();
+    this.cart$ = this.cartService.activeCart$;
     this.entries$ = this.cartService
       .getEntries()
       .pipe(filter(entries => entries.length > 0));

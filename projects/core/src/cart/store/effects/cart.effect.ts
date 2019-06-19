@@ -23,6 +23,8 @@ export class CartEffects {
       }) => action.payload
     ),
     mergeMap(payload => {
+      debugger;
+
       const loadCartParams = {
         userId: (payload && payload.userId) || this.cartData.userId,
         cartId: (payload && payload.cartId) || this.cartData.cartId,
@@ -57,6 +59,8 @@ export class CartEffects {
     ofType(fromActions.CREATE_CART),
     map((action: fromActions.CreateCart) => action.payload),
     mergeMap(payload => {
+      debugger;
+
       return this.cartConnector
         .create(payload.userId, payload.oldCartId, payload.toMergeCartGuid)
         .pipe(
@@ -82,6 +86,7 @@ export class CartEffects {
     ofType(fromActions.MERGE_CART),
     map((action: fromActions.MergeCart) => action.payload),
     mergeMap(payload => {
+      debugger;
       return this.cartConnector.load(payload.userId, 'current').pipe(
         map(currentCart => {
           return new fromActions.CreateCart({
@@ -111,14 +116,15 @@ export class CartEffects {
           | fromEntryActions.RemoveEntrySuccess
       ) => action.payload
     ),
-    map(
-      payload =>
-        new fromActions.LoadCart({
-          userId: payload.userId,
-          cartId: payload.cartId,
-          details: true,
-        })
-    )
+    map(payload => {
+      debugger;
+
+      return new fromActions.LoadCart({
+        userId: payload.userId,
+        cartId: payload.cartId,
+        details: true,
+      });
+    })
   );
 
   @Effect()

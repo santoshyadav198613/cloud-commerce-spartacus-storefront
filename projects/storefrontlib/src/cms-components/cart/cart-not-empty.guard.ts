@@ -14,7 +14,7 @@ export class CartNotEmptyGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    return this.cartService.getActive().pipe(
+    return this.cartService.activeCart$.pipe(
       map(cart => {
         if (this.cartService.isEmpty(cart)) {
           this.routingService.go({ cxRoute: 'home' });

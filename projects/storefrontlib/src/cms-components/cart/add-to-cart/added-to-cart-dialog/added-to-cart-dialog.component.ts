@@ -33,6 +33,7 @@ export class AddedToCartDialogComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    debugger;
     this.entry$ = this.entry$.pipe(
       tap(entry => {
         if (entry) {

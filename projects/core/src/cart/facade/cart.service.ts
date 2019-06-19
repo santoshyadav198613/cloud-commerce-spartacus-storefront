@@ -20,40 +20,39 @@ export class CartService {
     protected authService: AuthService
   ) {}
 
-  getActive(): Observable<Cart> {
-    return combineLatest(
-      this.store.select(fromSelector.getCartContent),
-      this.store.select(fromSelector.getCartLoading),
-      this.authService.getUserToken()
-    ).pipe(
-      // combineLatest emits multiple times on each property update instead of one emit
-      // additionally dispatching actions that changes selectors used here needs to happen in order
-      // for this asyncScheduler is used here
-      debounceTime(1, asyncScheduler),
-      tap(([cart, loading, userToken]) => {
-        if (
-          // we are only interested in case when we switch from not logged user to logged
-          // we skip the first execution when loading data to store by checking initial value
-          // check for undefined is used to ignore this action on logout
-          this.prevCartUserId !== null &&
-          this.prevCartUserId !== userToken.userId &&
-          typeof userToken.userId !== 'undefined' &&
-          !loading
-        ) {
-          this.loadOrMerge();
-        }
-        if (!loading && !this.isLoaded(cart)) {
-          this.loadDetails();
-        }
-        this.prevCartUserId = userToken.userId;
-      }),
-      map(([cart]) => cart),
-      filter(
-        cart =>
-          (this.isLoaded(cart) && this.isCreated(cart)) || !this.isCreated(cart)
-      )
-    );
-  }
+  activeCart$: Observable<Cart> = combineLatest(
+    this.store.select(fromSelector.getCartContent),
+    this.store.select(fromSelector.getCartLoading),
+    this.authService.getUserToken()
+  ).pipe(
+    // combineLatest emits multiple times on each property update instead of one emit
+    // additionally dispatching actions that changes selectors used here needs to happen in order
+    // for this asyncScheduler is used here
+    debounceTime(1, asyncScheduler),
+    tap(([cart, loading, userToken]) => {
+      debugger;
+      if (
+        // we are only interested in case when we switch from not logged user to logged
+        // we skip the first execution when loading data to store by checking initial value
+        // check for undefined is used to ignore this action on logout
+        this.prevCartUserId !== null &&
+        this.prevCartUserId !== userToken.userId &&
+        typeof userToken.userId !== 'undefined' &&
+        !loading
+      ) {
+        this.loadOrMerge();
+      }
+      if (!loading && !this.isLoaded(cart)) {
+        this.loadDetails();
+      }
+      this.prevCartUserId = userToken.userId;
+    }),
+    map(([cart]) => cart),
+    filter(
+      cart =>
+        (this.isLoaded(cart) && this.isCreated(cart)) || !this.isCreated(cart)
+    )
+  );
 
   getEntries(): Observable<OrderEntry[]> {
     return this.store.pipe(select(fromSelector.getCartEntries));
@@ -116,7 +115,7 @@ export class CartService {
       this.store.dispatch(
         new fromAction.CreateCart({ userId: this.cartData.userId })
       );
-      const sub = this.getActive().subscribe(cart => {
+      const sub = this.activeCart$.subscribe(cart => {
         if (this.isLoaded(cart)) {
           this.store.dispatch(
             new fromAction.AddEntry({

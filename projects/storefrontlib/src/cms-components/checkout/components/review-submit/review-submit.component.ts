@@ -1,6 +1,4 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
 import {
   Address,
   Cart,
@@ -14,6 +12,8 @@ import {
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
+import { combineLatest, Observable } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 
 @Component({
@@ -38,7 +38,7 @@ export class ReviewSubmitComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.cart$ = this.cartService.getActive();
+    this.cart$ = this.cartService.activeCart$;
     this.entries$ = this.cartService.getEntries();
     this.deliveryAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
     this.paymentDetails$ = this.checkoutPaymentService.getPaymentDetails();
