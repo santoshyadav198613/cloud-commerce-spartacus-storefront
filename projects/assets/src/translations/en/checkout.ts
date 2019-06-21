@@ -42,5 +42,6 @@ export const checkout = {
     deliveryMode: 'Delivery mode',
     paymentDetails: 'Payment details',
     reviewOrder: 'Review order',
+    taxinvoice:'Taxinvoice',
   },
 };

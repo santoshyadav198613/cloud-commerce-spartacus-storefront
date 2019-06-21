@@ -13,6 +13,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
 
   checkout: { paths: ['checkout'] },
   checkoutShippingAddress: { paths: ['checkout/shipping-address'] },
+  checkoutTaxinvoice: { paths: ['checkout/taxinvoice'] },
   checkoutDeliveryMode: { paths: ['checkout/delivery-mode'] },
   checkoutPaymentDetails: { paths: ['checkout/payment-details'] },
   checkoutReviewOrder: { paths: ['checkout/review-order'] },

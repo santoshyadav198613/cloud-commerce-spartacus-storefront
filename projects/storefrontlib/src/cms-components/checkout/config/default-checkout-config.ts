@@ -11,6 +11,12 @@ export const defaultCheckoutConfig: CheckoutConfig = {
         type: [CheckoutStepType.SHIPPING_ADDRESS],
       },
       {
+        id: 'taxinvoice',
+        name: 'checkoutProgress.taxinvoice',
+        routeName: 'checkoutTaxinvoice',
+        type: [CheckoutStepType.TACINVOICE],
+      },
+      {
         id: 'deliveryMode',
         name: 'checkoutProgress.deliveryMode',
         routeName: 'checkoutDeliveryMode',
