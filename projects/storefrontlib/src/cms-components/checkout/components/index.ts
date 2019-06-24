@@ -8,6 +8,8 @@ export * from './checkout-progress/checkout-progress-mobile-top/checkout-progres
 export * from './checkout-progress/checkout-progress-mobile-top/checkout-progress-mobile-top.module';
 export * from './checkout-progress/checkout-progress.component';
 export * from './checkout-progress/checkout-progress.module';
+export * from './checkout-taxinvoice/taxinvoice/taxinvoice.component';
+export * from './checkout-taxinvoice/taxinvoice/taxinvoice.module';
 export * from './delivery-mode/delivery-mode.component';
 export * from './delivery-mode/delivery-mode.module';
 export * from './payment-method/billing-address-form/billing-address-form.component';
@@ -22,8 +24,9 @@ export * from './promotions/promotions.component';
 export * from './promotions/promotions.module';
 export * from './review-submit/review-submit.component';
 export * from './review-submit/review-submit.module';
-export * from './shipping-address/address-form/suggested-addresses-dialog/suggested-addresses-dialog.component';
 export * from './shipping-address/address-form/address-form.component';
 export * from './shipping-address/address-form/address-form.module';
+export * from './shipping-address/address-form/suggested-addresses-dialog/suggested-addresses-dialog.component';
 export * from './shipping-address/shipping-address.component';
 export * from './shipping-address/shipping-address.module';
+

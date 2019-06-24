@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TaxinvoiceComponent } from '../taxinvoice/taxinvoice.component';
-import { ConfigModule } from 'projects/core/src/config/config.module';
+import { NgModule } from '@angular/core';
 import { CmsConfig } from 'projects/core/src/cms/config/cms-config';
+import { ConfigModule } from 'projects/core/src/config/config.module';
+import { TaxinvoiceComponent } from '../taxinvoice/taxinvoice.component';
 
 @NgModule({
   declarations: [TaxinvoiceComponent],
@@ -10,13 +10,13 @@ import { CmsConfig } from 'projects/core/src/cms/config/cms-config';
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        CheckoutShippingAddress: {
+        CheckoutTaxinvoice: {
           component: TaxinvoiceComponent,
         },
       },
     }),
   ],
-entryComponents: [TaxinvoiceComponent],
-exports: [TaxinvoiceComponent],
+  entryComponents: [TaxinvoiceComponent],
+  exports: [TaxinvoiceComponent],
 })
-export class TaxinvoiceModule { }
+export class TaxinvoiceModule {}

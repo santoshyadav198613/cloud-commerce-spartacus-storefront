@@ -1,5 +1,5 @@
-import { CheckoutConfig } from './checkout-config';
 import { CheckoutStepType } from '../model/checkout-step.model';
+import { CheckoutConfig } from './checkout-config';
 
 export const defaultCheckoutConfig: CheckoutConfig = {
   checkout: {
@@ -14,7 +14,7 @@ export const defaultCheckoutConfig: CheckoutConfig = {
         id: 'taxinvoice',
         name: 'checkoutProgress.taxinvoice',
         routeName: 'checkoutTaxinvoice',
-        type: [CheckoutStepType.TACINVOICE],
+        type: [CheckoutStepType.TAXINVOICE],
       },
       {
         id: 'deliveryMode',
