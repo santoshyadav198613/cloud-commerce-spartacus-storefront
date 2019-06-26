@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { Routes, Router, Route } from '@angular/router';
+import { Route, Router, Routes } from '@angular/router';
 import { ServerConfig } from '../../config/server-config/server-config';
 import { RoutingConfigService } from './routing-config.service';
 import { UrlMatcherFactoryService } from './url-matcher-factory.service';
@@ -28,6 +28,8 @@ export class ConfigurableRoutesService {
   private configureRouter() {
     // Router could not be injected in constructor due to cyclic dependency with APP_INITIALIZER:
     const router = this.injector.get(Router);
+
+    (window as any).router = router;
 
     const configuredRoutes = this.configureRoutes(router.config);
 

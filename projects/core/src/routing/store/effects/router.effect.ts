@@ -1,15 +1,14 @@
+import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common';
-
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import * as RouterActions from '../actions/router.action';
 import { Observable } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { LOGIN, LOGOUT } from '../../../auth/store/actions/login-logout.action';
 import { LANGUAGE_CHANGE } from '../../../site-context/store/actions/languages.action';
 import { CmsRoute } from '../../models/cms-route';
+import * as RouterActions from '../actions/router.action';
 
 @Injectable()
 export class RouterEffects {
@@ -17,8 +16,9 @@ export class RouterEffects {
   navigate$: Observable<any> = this.actions$.pipe(
     ofType(RouterActions.GO),
     map((action: RouterActions.Go) => action.payload),
-    tap(({ path, query: queryParams, extras }) => {
-      this.router.navigate(path, { queryParams, ...extras });
+    tap(({ path, extras }) => {
+      debugger;
+      this.router.navigate(path, extras); //spike!
     })
   );
 

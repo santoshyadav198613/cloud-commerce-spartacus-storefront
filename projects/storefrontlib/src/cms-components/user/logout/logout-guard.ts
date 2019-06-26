@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { Observable } from 'rxjs';
 import {
   AuthService,
   CmsService,
@@ -8,6 +7,7 @@ import {
   RoutingService,
   SemanticPathService,
 } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable({
@@ -25,13 +25,13 @@ export class LogoutGuard implements CanActivate {
     this.logout();
 
     return this.cms
-      .hasPage({
+      .getPage({
         id: this.semanticPathService.get('logout'),
         type: PageType.CONTENT_PAGE,
       })
       .pipe(
-        tap(hasPage => {
-          if (!hasPage) {
+        tap(page => {
+          if (!page) {
             this.routing.go({ cxRoute: 'home' });
           }
         })

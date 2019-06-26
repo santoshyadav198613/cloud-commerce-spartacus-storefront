@@ -1,16 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import {
-  AuthGuard,
-  CmsConfig,
-  ConfigModule,
-  I18nModule,
-} from '@spartacus/core';
-import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
-import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
+import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
 import { CardModule } from '../../../../shared/components/card/card.module';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
+import { BannerComponent } from '../../../content';
 import { OrderDetailHeadlineComponent } from './order-detail-headline/order-detail-headline.component';
 import { OrderDetailItemsComponent } from './order-detail-items/order-detail-items.component';
 import { OrderDetailShippingComponent } from './order-detail-shipping/order-detail-shipping.component';
@@ -30,18 +23,11 @@ const moduleComponents = [
     CardModule,
     CommonModule,
     I18nModule,
-    RouterModule.forChild([
-      {
-        path: null,
-        canActivate: [AuthGuard, CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { cxRoute: 'orderDetails' },
-      },
-    ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         AccountOrderDetailsHeadlineComponent: {
           component: OrderDetailHeadlineComponent,
+          childRoutes: [{ path: ':orderCode', component: BannerComponent }],
         },
         AccountOrderDetailsItemsComponent: {
           component: OrderDetailItemsComponent,

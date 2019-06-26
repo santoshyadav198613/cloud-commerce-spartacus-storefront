@@ -185,10 +185,10 @@ export class CmsService {
   }
 
   /**
-   * Given pageContext, return whether the CMS page data exists or not
+   * Given pageContext, loads the CMS page data
    * @param pageContext
    */
-  hasPage(pageContext: PageContext, forceReload = false): Observable<boolean> {
+  getPage(pageContext: PageContext, forceReload = false): Observable<Page> {
     let loaded = false;
     return this.store.pipe(
       select(fromStore.getIndexEntity(pageContext)),
@@ -208,8 +208,10 @@ export class CmsService {
         }
         return entity.success || (entity.error && !entity.loading);
       }),
-      pluck('success'),
-      catchError(() => of(false))
+      switchMap(entity => {
+        return entity.success ? this.getPageState(pageContext) : of(null);
+      }),
+      catchError(() => of(null))
     );
   }
 

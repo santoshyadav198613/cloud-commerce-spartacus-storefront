@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
 import { NavigationExtras } from '@angular/router';
-
 import { select, Store } from '@ngrx/store';
-
 import { Observable } from 'rxjs';
-
-import * as fromStore from '../store';
-import { PageContext } from '../models/page-context.model';
 import { WindowRef } from '../../window/window-ref';
-import { UrlCommands } from '../configurable-routes/url-translation/url-command';
 import { SemanticPathService } from '../configurable-routes/url-translation/semantic-path.service';
+import { UrlCommands } from '../configurable-routes/url-translation/url-command';
+import { PageContext } from '../models/page-context.model';
+import * as fromStore from '../store';
 import { RouterState } from '../store/reducers/router.reducer';
 
 @Injectable({

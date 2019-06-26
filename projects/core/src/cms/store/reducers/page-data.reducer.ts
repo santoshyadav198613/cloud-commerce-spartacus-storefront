@@ -1,6 +1,6 @@
-import * as fromAction from '../actions';
-import { Page } from '../../model/page.model';
 import { EntityState } from '../../../state/utils/entity/entity-state';
+import { Page } from '../../model/page.model';
+import * as fromAction from '../actions';
 
 export const initialState: EntityState<Page> = { entities: {} };
 

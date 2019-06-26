@@ -34,7 +34,8 @@ if (!environment.production) {
       production: environment.production,
       backend: {
         occ: {
-          baseUrl: environment.occBaseUrl,
+          baseUrl:
+            'https://storefront.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com',
           legacy: false,
         },
       },
@@ -67,6 +68,7 @@ if (!environment.production) {
       // but adding
       i18n: {
         resources: translations,
+        chunks: translationChunksConfig,
       },
     }),
 

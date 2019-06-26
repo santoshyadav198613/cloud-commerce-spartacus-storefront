@@ -30,7 +30,13 @@ export class OrderDetailsService {
 
   getOrderDetails(): Observable<Order> {
     return this.orderLoad$.pipe(
-      switchMap(() => this.userOrderService.getOrderDetails())
+      switchMap(orderCode => {
+        if (!orderCode) {
+          debugger;
+          this.routingService.go({ cxRoute: 'orders' });
+        }
+        return this.userOrderService.getOrderDetails();
+      })
     );
   }
 }
