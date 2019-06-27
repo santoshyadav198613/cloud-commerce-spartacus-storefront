@@ -8,8 +8,8 @@ export * from './checkout-progress/checkout-progress-mobile-top/checkout-progres
 export * from './checkout-progress/checkout-progress-mobile-top/checkout-progress-mobile-top.module';
 export * from './checkout-progress/checkout-progress.component';
 export * from './checkout-progress/checkout-progress.module';
-export * from './checkout-taxinvoice/taxinvoice/taxinvoice.component';
-export * from './checkout-taxinvoice/taxinvoice/taxinvoice.module';
+export * from './checkout-taxinvoice/taxinvoice.component';
+export * from './checkout-taxinvoice/taxinvoice.module';
 export * from './delivery-mode/delivery-mode.component';
 export * from './delivery-mode/delivery-mode.module';
 export * from './payment-method/billing-address-form/billing-address-form.component';
