@@ -8,7 +8,10 @@ import {
   LinkModule,
   TabParagraphContainerModule,
 } from './content/index';
-import { SiteContextSelectorModule } from './misc/index';
+import {
+  CookieNotificationModule,
+  SiteContextSelectorModule,
+} from './misc/index';
 import {
   AddressBookModule,
   CloseAccountModule,
@@ -76,6 +79,7 @@ import { ProductSummaryModule } from './product/product-summary/product-summary.
     CheckoutComponentModule,
     ForgotPasswordModule,
     ResetPasswordModule,
+    CookieNotificationModule,
   ],
 })
 export class CmsLibModule {}

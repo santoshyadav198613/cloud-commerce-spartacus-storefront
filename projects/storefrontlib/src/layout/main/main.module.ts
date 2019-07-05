@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { CookieNotificationModule } from '../../cms-components/misc/cookie-notification/cookie-notification.module';
 import { GlobalMessageComponentModule } from '../../cms-components/misc/global-message/global-message.module';
 import { UserComponentModule } from '../../cms-components/user/index';
 import { SeoModule } from '../../cms-structure/index';
@@ -21,6 +22,7 @@ import { StorefrontComponent } from './storefront.component';
     PageLayoutModule,
     SeoModule,
     PageSlotModule,
+    CookieNotificationModule,
   ],
   declarations: [StorefrontComponent],
   exports: [StorefrontComponent],
