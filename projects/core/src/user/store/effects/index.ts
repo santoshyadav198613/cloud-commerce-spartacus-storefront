@@ -14,6 +14,7 @@ import { UserConsentsEffect } from './user-consents.effect';
 import { UserDetailsEffects } from './user-details.effect';
 import { UserOrdersEffect } from './user-orders.effect';
 import { UserRegisterEffects } from './user-register.effect';
+import { ProductInterestsEffect } from './product-interests.effect';
 
 export const effects: any[] = [
   ClearMiscsDataEffect,
@@ -32,6 +33,7 @@ export const effects: any[] = [
   UpdateEmailEffects,
   UpdatePasswordEffects,
   UserConsentsEffect,
+  ProductInterestsEffect,
 ];
 
 export * from './billing-countries.effect';
@@ -47,3 +49,4 @@ export * from './user-details.effect';
 export * from './user-orders.effect';
 export * from './user-register.effect';
 export * from './clear-miscs-data.effect';
+export * from './product-interests.effect';

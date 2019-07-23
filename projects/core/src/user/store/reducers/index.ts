@@ -19,6 +19,7 @@ import {
   USER_CONSENTS,
   USER_ORDERS,
   USER_PAYMENT_METHODS,
+  PRODUCT_INTERESTS,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromDeliveryCountries from './delivery-countries.reducer';
@@ -31,6 +32,8 @@ import * as fromAddressesReducer from './user-addresses.reducer';
 import * as fromUserConsentsReducer from './user-consents.reducer';
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
+import * as fromInterestsReducer from './product-interests.reducer';
+import { ProductInterestList } from '../../../model/product-interest.model';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
@@ -59,6 +62,10 @@ export function getReducers(): ActionReducerMap<UserState> {
     titles: fromTitlesReducer.reducer,
     regions: loaderReducer<RegionsState>(REGIONS, fromRegionsReducer.reducer),
     resetPassword: fromResetPasswordReducer.reducer,
+    productInterests: loaderReducer<ProductInterestList>(
+      PRODUCT_INTERESTS,
+      fromInterestsReducer.reducer
+    ),
   };
 }
 

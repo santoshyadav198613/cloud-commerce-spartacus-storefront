@@ -3,6 +3,7 @@ import { PaymentDetails } from '../../model/cart.model';
 import { Title, User } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { LoaderState } from '../../state';
+import { ProductInterestList } from '../../model/product-interest.model';
 import { ConsentTemplate } from '../../model/consent.model';
 
 export const USER_FEATURE = 'user';
@@ -18,6 +19,8 @@ export const USER_PAYMENT_METHODS = '[User] User Payment Methods';
 export const USER_ORDERS = '[User] User Orders';
 export const USER_ADDRESSES = '[User] User Addresses';
 export const REGIONS = '[User] Regions';
+
+export const PRODUCT_INTERESTS = 'Product Interests';
 
 export interface StateWithUser {
   [USER_FEATURE]: UserState;
@@ -35,6 +38,7 @@ export interface UserState {
   titles: TitlesState;
   regions: LoaderState<RegionsState>;
   resetPassword: boolean;
+  productInterests: LoaderState<ProductInterestList>;
 }
 
 export interface OrderDetailsState {

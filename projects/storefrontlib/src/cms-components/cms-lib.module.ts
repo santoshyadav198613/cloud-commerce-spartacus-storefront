@@ -22,6 +22,7 @@ import {
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
+  MyInterestsModule,
 } from './myaccount/index';
 import {
   BreadcrumbModule,
@@ -80,6 +81,7 @@ import { UserComponentModule } from './user/user.module';
     ResetPasswordModule,
     BannerCarouselModule,
     UserComponentModule,
+    MyInterestsModule,
   ],
 })
 export class CmsLibModule {}

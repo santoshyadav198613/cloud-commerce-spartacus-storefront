@@ -3,4 +3,5 @@ export * from './occ-user.adapter';
 export * from './occ-user-consent.adapter';
 export * from './occ-user-payment.adapter';
 export * from './occ-user-order.adapter';
+export * from './occ-user-interests.adapter';
 export * from './user-occ.module';
