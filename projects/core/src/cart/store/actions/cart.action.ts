@@ -17,6 +17,8 @@ export const RESET_CART_DETAILS = '[Cart] Reset Cart Details';
 
 export const CLEAR_CART = '[Cart] Clear Cart';
 
+export const CLEAR_EXPIRED_COUPONS = '[Cart] Clear Expired Coupon';
+
 export class CreateCart extends StateLoaderActions.LoaderLoadAction {
   readonly type = CREATE_CART;
   constructor(public payload: any) {
@@ -81,6 +83,11 @@ export class ClearCart extends StateLoaderActions.LoaderResetAction {
   }
 }
 
+export class ClearExpiredCoupons implements Action {
+  readonly type = CLEAR_EXPIRED_COUPONS;
+  constructor(public payload: any) {}
+}
+
 export type CartAction =
   | CreateCart
   | CreateCartFail
@@ -91,4 +98,5 @@ export type CartAction =
   | MergeCart
   | MergeCartSuccess
   | ResetCartDetails
-  | ClearCart;
+  | ClearCart
+  | ClearExpiredCoupons;

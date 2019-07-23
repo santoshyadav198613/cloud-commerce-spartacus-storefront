@@ -16,6 +16,7 @@ export class CartEffects {
     | CartActions.LoadCartFail
     | CartActions.LoadCartSuccess
     | CartActions.ClearCart
+    | CartActions.ClearExpiredCoupons
   > = this.actions$.pipe(
     ofType(CartActions.LOAD_CART),
     map(
@@ -47,6 +48,14 @@ export class CartEffects {
               if (cartNotFoundErrors.length > 0) {
                 return of(new CartActions.ClearCart());
               }
+
+              const couponExpiredErrors = error.error.errors.filter(
+                err => err.reason === 'invalid'
+              );
+              if (couponExpiredErrors.length > 0) {
+                return of(new CartActions.ClearExpiredCoupons({}));
+              }
+
             }
             return of(
               new CartActions.LoadCartFail(makeErrorSerializable(error))
@@ -110,7 +119,8 @@ export class CartEffects {
       CartActions.MERGE_CART_SUCCESS,
       CartActions.CART_ADD_ENTRY_SUCCESS,
       CartActions.CART_UPDATE_ENTRY_SUCCESS,
-      CartActions.CART_REMOVE_ENTRY_SUCCESS
+      CartActions.CART_REMOVE_ENTRY_SUCCESS,
+      CartActions.CLEAR_EXPIRED_COUPONS
     ),
     map(
       (
@@ -119,6 +129,7 @@ export class CartEffects {
           | CartActions.CartAddEntrySuccess
           | CartActions.CartUpdateEntrySuccess
           | CartActions.CartRemoveEntrySuccess
+          | CartActions.ClearExpiredCoupons
       ) => action.payload
     ),
     map(
