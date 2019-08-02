@@ -11,8 +11,6 @@ export class PageActionComponent implements OnInit {
   @Input()
   action: CmsAction
   @Input()
-  name: string;
-  @Input()
   data: any;
 
   @Output()
