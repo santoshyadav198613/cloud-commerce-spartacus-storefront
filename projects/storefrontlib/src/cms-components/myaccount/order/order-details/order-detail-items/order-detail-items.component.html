@@ -24,7 +24,6 @@
     <ng-container *ngIf="(actions$ | async) as actions">
       <ng-container *ngFor="let action of actions">
         <cx-page-action 
-          [name]="action.name"
           [action]="action" 
           [data]="consignment"
           (onaction)="getConsignmentmentTracking($event)">
