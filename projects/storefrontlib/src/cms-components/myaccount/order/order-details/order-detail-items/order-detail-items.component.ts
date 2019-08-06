@@ -21,7 +21,7 @@ export class OrderDetailItemsComponent implements OnInit {
 
   ngOnInit() {
     this.order$ = this.orderDetailsService.getOrderDetails();
-    this.cmsService.getComponentData('AccountOrderHistoryComponent').pipe(
+    this.actions$ = this.cmsService.getComponentData('AccountOrderHistoryComponent').pipe(
       map(component => component.actions)
     )
   }
