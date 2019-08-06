@@ -26,8 +26,8 @@ export class OrderDetailItemsComponent implements OnInit {
     )
   }
 
-  getConsignmentmentTracking(){
-    //do anything you want
+  openTrackingDialog(){
+    
   }
 
   getConsignmentProducts(consignment: Consignment): OrderEntry[] {
