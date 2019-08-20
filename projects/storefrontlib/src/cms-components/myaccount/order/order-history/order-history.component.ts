@@ -63,10 +63,13 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   }
 
   goToOrderDetail(order: Order): void {
-    this.routing.go({
-      cxRoute: 'orderDetails',
-      params: order,
-    });
+    this.routing.go([
+      {
+        cxRoute: 'orderDetails',
+        params: order,
+      },
+      order.code,
+    ]);
   }
 
   getSortLabels(): Observable<{ byDate: string; byOrderNumber: string }> {

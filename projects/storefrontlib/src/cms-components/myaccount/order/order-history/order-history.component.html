@@ -51,10 +51,13 @@
                 </div>
                 <a
                   [routerLink]="
-                    {
-                      cxRoute: 'orderDetails',
-                      params: order
-                    } | cxUrl
+                    [
+                      {
+                        cxRoute: 'orderDetails',
+                        params: order
+                      },
+                      order.code
+                    ] | cxUrl
                   "
                   class="cx-order-history-value"
                 >
@@ -67,10 +70,13 @@
                 </div>
                 <a
                   [routerLink]="
-                    {
-                      cxRoute: 'orderDetails',
-                      params: order
-                    } | cxUrl
+                    [
+                      {
+                        cxRoute: 'orderDetails',
+                        params: order
+                      },
+                      order.code
+                    ] | cxUrl
                   "
                   class="cx-order-history-value"
                   >{{ order?.placed | cxDate: 'longDate' }}</a
@@ -82,10 +88,13 @@
                 </div>
                 <a
                   [routerLink]="
-                    {
-                      cxRoute: 'orderDetails',
-                      params: order
-                    } | cxUrl
+                    [
+                      {
+                        cxRoute: 'orderDetails',
+                        params: order
+                      },
+                      order.code
+                    ] | cxUrl
                   "
                   class="cx-order-history-value"
                 >
@@ -101,10 +110,13 @@
                 </div>
                 <a
                   [routerLink]="
-                    {
-                      cxRoute: 'orderDetails',
-                      params: order
-                    } | cxUrl
+                    [
+                      {
+                        cxRoute: 'orderDetails',
+                        params: order
+                      },
+                      order.code
+                    ] | cxUrl
                   "
                   class="cx-order-history-value"
                 >

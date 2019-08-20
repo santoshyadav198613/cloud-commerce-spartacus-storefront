@@ -34,7 +34,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
 
   termsAndConditions: { paths: ['terms-and-conditions'] },
   orderDetails: {
-    paths: ['my-account/order/:orderCode'],
+    paths: ['my-account/order'],
     paramsMapping: { orderCode: 'code' },
   },
   orders: {

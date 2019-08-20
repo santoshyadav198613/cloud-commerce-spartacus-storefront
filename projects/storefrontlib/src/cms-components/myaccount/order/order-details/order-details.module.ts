@@ -1,13 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import {
-  AuthGuard,
-  CmsConfig,
-  ConfigModule,
-  I18nModule,
-} from '@spartacus/core';
-import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
+import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { CardModule } from '../../../../shared/components/card/card.module';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
@@ -30,18 +23,26 @@ const moduleComponents = [
     CardModule,
     CommonModule,
     I18nModule,
-    RouterModule.forChild([
-      {
-        path: null,
-        canActivate: [AuthGuard, CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { cxRoute: 'orderDetails' },
-      },
-    ]),
+    // SPIKE TODO UNCOMMENT:
+    // RouterModule.forChild([
+    //   {
+    //     path: null,
+    //     canActivate: [AuthGuard, CmsPageGuard],
+    //     component: PageLayoutComponent,
+    //     data: { cxRoute: 'orderDetails' },
+    //   },
+    // ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         AccountOrderDetailsHeadlineComponent: {
           component: OrderDetailHeadlineComponent,
+          // spike todo remove:
+          childRoutes: [
+            {
+              path: ':orderCode',
+              component: PageLayoutComponent,
+            },
+          ],
         },
         AccountOrderDetailsItemsComponent: {
           component: OrderDetailItemsComponent,

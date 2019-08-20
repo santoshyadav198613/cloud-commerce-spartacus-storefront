@@ -28,6 +28,9 @@ export class ConfigurableRoutesService {
     // Router could not be injected in constructor due to cyclic dependency with APP_INITIALIZER:
     const router = this.injector.get(Router);
 
+    //spike todo remove:
+    (window as any).router = router;
+
     const configuredRoutes = this.configureRoutes(router.config);
 
     router.resetConfig(configuredRoutes);
