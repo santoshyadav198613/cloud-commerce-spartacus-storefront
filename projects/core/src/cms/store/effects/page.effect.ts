@@ -54,13 +54,28 @@ export class PageEffects {
         switchMap(pageContext =>
           this.cmsPageConnector.get(pageContext).pipe(
             mergeMap((cmsStructure: CmsStructureModel) => {
-              return [
+              const actions = [
                 new CmsActions.CmsGetComponentFromPage(cmsStructure.components),
                 new CmsActions.LoadCmsPageDataSuccess(
                   pageContext,
                   cmsStructure.page
                 ),
               ];
+
+              const pageLabel = cmsStructure.page.label;
+              // for content pages with childRoutes the page label received from backend can be different than ID assumed initially from route
+              if (pageLabel && pageLabel !== pageContext.id) {
+                actions.push(
+                  new CmsActions.LoadCmsPageDataSuccess(
+                    {
+                      type: pageContext.type,
+                      id: pageLabel,
+                    },
+                    cmsStructure.page
+                  )
+                );
+              }
+              return actions;
             }),
             catchError(error =>
               of(
