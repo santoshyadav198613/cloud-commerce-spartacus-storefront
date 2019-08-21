@@ -31,6 +31,16 @@ export class UserTokenEffects {
   );
 
   @Effect()
+  loadUserTokenSuccess$: Observable<AuthActions.UserTokenAction> = this.actions$.pipe(
+    ofType(AuthActions.LOAD_USER_TOKEN_SUCCESS),
+    map((action: AuthActions.LoadUserToken) => action.payload),
+    switchMap(() =>
+      // TODO add condition to check "remember me" flag and only then return this reset action
+      of(new AuthActions.ResetRefreshToken())
+    )
+  );
+
+  @Effect()
   login$: Observable<AuthActions.Login> = this.actions$.pipe(
     ofType(AuthActions.LOAD_USER_TOKEN_SUCCESS),
     map(() => new AuthActions.Login())

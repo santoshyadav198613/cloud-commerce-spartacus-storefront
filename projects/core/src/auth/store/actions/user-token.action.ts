@@ -8,6 +8,8 @@ export const REFRESH_USER_TOKEN = '[Auth] Refresh User Token';
 export const REFRESH_USER_TOKEN_FAIL = '[Auth] Refresh User Token Fail';
 export const REFRESH_USER_TOKEN_SUCCESS = '[Auth] Refresh User Token Success';
 
+export const RESET_REFRESH_TOKEN = '[Auth] Reset Refresh Token';
+
 export class LoadUserToken implements Action {
   readonly type = LOAD_USER_TOKEN;
   constructor(public payload: { userId: string; password: string }) {}
@@ -38,6 +40,11 @@ export class RefreshUserTokenFail implements Action {
   constructor(public payload: any) {}
 }
 
+export class ResetRefreshToken implements Action {
+  readonly type = RESET_REFRESH_TOKEN;
+  constructor() {}
+}
+
 // action types
 export type UserTokenAction =
   | LoadUserToken
@@ -45,4 +52,5 @@ export type UserTokenAction =
   | LoadUserTokenSuccess
   | RefreshUserToken
   | RefreshUserTokenFail
-  | RefreshUserTokenSuccess;
+  | RefreshUserTokenSuccess
+  | ResetRefreshToken;

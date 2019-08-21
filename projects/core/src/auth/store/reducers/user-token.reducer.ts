@@ -32,6 +32,13 @@ export function reducer(
         ...state,
       };
     }
+
+    case AuthActions.RESET_REFRESH_TOKEN: {
+      return {
+        ...state,
+        refresh_token: null,
+      }
+    }
   }
   return state;
 }
