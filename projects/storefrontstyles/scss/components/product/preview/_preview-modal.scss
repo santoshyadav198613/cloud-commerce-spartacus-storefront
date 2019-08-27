@@ -1,0 +1,21 @@
+%cx-preview-modal {
+  padding: var(--cx-padding, 2rem 2rem 2rem);
+
+  .cx-preview-body {
+    margin: 25px 0 15px 0;
+
+    .cx-preview-title {
+      color: var(--cx-color-dark);
+      text-decoration: none;
+    }
+
+    .cx-preview-rating {
+      margin: 0;
+    }
+  }
+
+  .cx-preview-divider {
+    margin: 10px 15px 30px 15px;
+    border: 1px solid var(--cx-color-light);
+  }
+}

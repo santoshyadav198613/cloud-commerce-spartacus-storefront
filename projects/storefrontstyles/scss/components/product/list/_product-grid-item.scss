@@ -1,4 +1,29 @@
 %cx-product-grid-item {
+  .test {
+    padding: 15px;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+
+    &:hover {
+      border-color: gray;
+    }
+  }
+
+  .btn-default {
+    background-color: lightgray;
+    color: white;
+    border-color: transparent;
+
+    &:hover {
+      border-color: gray;
+    }
+  }
+
+  .hide-preview {
+    visibility: hidden;
+    opacity: 0;
+  }
+
   .cx-product-search-list {
     border-width: 0 0 1px 0;
     border-style: solid;

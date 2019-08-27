@@ -7,14 +7,18 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
+import { PageSlotModule } from '../../../cms-structure/page/slot/page-slot.module';
 import {
   ItemCounterModule,
   ListNavigationModule,
   MediaModule,
+  SpinnerModule,
   StarRatingModule,
 } from '../../../shared/index';
 import { AddToCartModule } from '../../cart/index';
+import { PreviewModalComponent } from '../../content/preview/preview-modal.component';
 import { IconModule } from '../../misc/icon/index';
+import { ProductReferencesComponent } from '../carousel/product-references/product-references.component';
 import { ProductListComponent } from './container/product-list.component';
 import { ProductFacetNavigationComponent } from './product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from './product-grid-item/product-grid-item.component';
@@ -35,6 +39,9 @@ import { ProductViewComponent } from './product-view/product-view.component';
         ProductRefinementComponent: {
           component: ProductFacetNavigationComponent,
         },
+        ProductReferencesComponent: {
+          component: ProductReferencesComponent,
+        },
       },
     }),
     RouterModule,
@@ -44,6 +51,8 @@ import { ProductViewComponent } from './product-view/product-view.component';
     ListNavigationModule,
     UrlModule,
     I18nModule,
+    PageSlotModule,
+    SpinnerModule,
     StarRatingModule,
     IconModule,
   ],
@@ -52,6 +61,7 @@ import { ProductViewComponent } from './product-view/product-view.component';
     ProductFacetNavigationComponent,
     ProductListItemComponent,
     ProductGridItemComponent,
+    PreviewModalComponent,
     ProductViewComponent,
   ],
   exports: [
@@ -59,8 +69,13 @@ import { ProductViewComponent } from './product-view/product-view.component';
     ProductFacetNavigationComponent,
     ProductListItemComponent,
     ProductGridItemComponent,
+    PreviewModalComponent,
     ProductViewComponent,
   ],
-  entryComponents: [ProductListComponent, ProductFacetNavigationComponent],
+  entryComponents: [
+    ProductListComponent,
+    ProductFacetNavigationComponent,
+    PreviewModalComponent,
+  ],
 })
 export class ProductListModule {}
