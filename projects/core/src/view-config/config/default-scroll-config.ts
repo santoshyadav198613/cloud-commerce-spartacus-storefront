@@ -1,9 +1,9 @@
-import { ViewConfig } from '@spartacus/core';
+import { ViewConfig } from './view-config';
 
 export const defaultScrollConfig: ViewConfig = {
   view: {
     infiniteScroll: {
-      active: false,
+      active: true,
       productLimit: 0,
       showMoreButton: false,
     },

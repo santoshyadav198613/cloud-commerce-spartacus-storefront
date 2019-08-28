@@ -1,6 +1,7 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { ViewConfig } from './config/view-config';
 import { Config, provideConfig } from '../config';
+import { defaultScrollConfig } from './config/default-scroll-config';
+import { ViewConfig } from './config/view-config';
 
 @NgModule({})
 export class ViewConfigModule {
@@ -8,13 +9,7 @@ export class ViewConfigModule {
     return {
       ngModule: ViewConfigModule,
       providers: [
-        provideConfig({
-          view: {
-            infiniteScroll: {
-              active: true,
-            },
-          },
-        }),
+        provideConfig(defaultScrollConfig),
         {
           provide: ViewConfig,
           useExisting: Config,
