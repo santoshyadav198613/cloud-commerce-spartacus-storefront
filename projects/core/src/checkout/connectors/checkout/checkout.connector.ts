@@ -34,4 +34,11 @@ export class CheckoutConnector {
   ): Observable<any> {
     return this.adapter.clearCheckoutDeliveryMode(userId, cartId);
   }
+
+  public clearCheckoutPaymentMethod(
+    userId: string,
+    cartId: string
+  ): Observable<any> {
+    return this.adapter.clearCheckoutPaymentMethod(userId, cartId);
+  }
 }

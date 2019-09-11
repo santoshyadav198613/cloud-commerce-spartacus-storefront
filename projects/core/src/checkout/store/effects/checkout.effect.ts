@@ -329,6 +329,29 @@ export class CheckoutEffects {
     })
   );
 
+  @Effect()
+  clearCheckoutPaymentMethod$: Observable<
+    | CheckoutActions.ClearCheckoutPaymentMethodFail
+    | CheckoutActions.ClearCheckoutPaymentMethodSuccess
+  > = this.actions$.pipe(
+    ofType(CheckoutActions.CLEAR_CHECKOUT_PAYMENT_METHOD),
+    map((action: CheckoutActions.ClearCheckoutPaymentMethod) => action.payload),
+    switchMap(payload => {
+      return this.checkoutConnector
+        .clearCheckoutPaymentMethod(payload.userId, payload.cartId)
+        .pipe(
+          map(() => new CheckoutActions.ClearCheckoutPaymentMethodSuccess()),
+          catchError(error =>
+            of(
+              new CheckoutActions.ClearCheckoutPaymentMethodFail(
+                makeErrorSerializable(error)
+              )
+            )
+          )
+        );
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private checkoutDeliveryConnector: CheckoutDeliveryConnector,

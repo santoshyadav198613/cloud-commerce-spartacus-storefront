@@ -96,6 +96,18 @@ export class CheckoutPaymentService {
     }
   }
 
+  /**
+   * Clear payment method already setup in last checkout process
+   */
+  clearCheckoutPaymentMethod(): void {
+    this.checkoutStore.dispatch(
+      new CheckoutActions.ClearCheckoutPaymentMethod({
+        userId: this.cartData.userId,
+        cartId: this.cartData.cartId,
+      })
+    );
+  }
+
   protected actionAllowed(): boolean {
     return this.cartData.userId !== ANONYMOUS_USERID;
   }

@@ -43,4 +43,15 @@ export abstract class CheckoutAdapter {
     userId: string,
     cartId: string
   ): Observable<any>;
+
+  /**
+   * Abstract method used to clear checkout payment method
+   *
+   * @param userId
+   * @param cartId
+   */
+  abstract clearCheckoutPaymentMethod(
+    userId: string,
+    cartId: string
+  ): Observable<any>;
 }

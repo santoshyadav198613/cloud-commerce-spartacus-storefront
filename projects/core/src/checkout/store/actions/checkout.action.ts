@@ -30,6 +30,13 @@ export const CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS =
 export const CLEAR_CHECKOUT_DELIVERY_MODE_FAIL =
   '[Checkout] Clear Checkout Delivery Mode Fail';
 
+export const CLEAR_CHECKOUT_PAYMENT_METHOD =
+  '[Checkout] Clear Checkout Payment Method';
+export const CLEAR_CHECKOUT_PAYMENT_METHOD_SUCCESS =
+  '[Checkout] Clear Checkout Payment Method Success';
+export const CLEAR_CHECKOUT_PAYMENT_METHOD_FAIL =
+  '[Checkout] Clear Checkout Payment Method Fail';
+
 export const ADD_DELIVERY_ADDRESS = '[Checkout] Add Delivery Address';
 export const ADD_DELIVERY_ADDRESS_FAIL = '[Checkout] Add Delivery Address Fail';
 export const ADD_DELIVERY_ADDRESS_SUCCESS =
@@ -337,6 +344,21 @@ export class ClearCheckoutDeliveryModeFail implements Action {
   constructor(public payload: any) {}
 }
 
+export class ClearCheckoutPaymentMethod implements Action {
+  readonly type = CLEAR_CHECKOUT_PAYMENT_METHOD;
+  constructor(public payload: { userId: string; cartId: string }) {}
+}
+
+export class ClearCheckoutPaymentMethodSuccess implements Action {
+  readonly type = CLEAR_CHECKOUT_PAYMENT_METHOD_SUCCESS;
+  constructor() {}
+}
+
+export class ClearCheckoutPaymentMethodFail implements Action {
+  readonly type = CLEAR_CHECKOUT_PAYMENT_METHOD_FAIL;
+  constructor(public payload: any) {}
+}
+
 export type CheckoutAction =
   | AddDeliveryAddress
   | AddDeliveryAddressFail
@@ -374,4 +396,7 @@ export type CheckoutAction =
   | LoadCheckoutDetails
   | LoadCheckoutDetailsFail
   | LoadCheckoutDetailsSuccess
-  | CheckoutClearMiscsData;
+  | CheckoutClearMiscsData
+  | ClearCheckoutPaymentMethod
+  | ClearCheckoutPaymentMethodSuccess
+  | ClearCheckoutPaymentMethodFail;

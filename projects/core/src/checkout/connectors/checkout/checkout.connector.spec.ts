@@ -26,6 +26,11 @@ class MockOrderAdapter implements CheckoutAdapter {
   ).and.callFake((userId, cartId) =>
     of(`clearCheckoutDeliveryMode-${userId}-${cartId}`)
   );
+  clearCheckoutPaymentMethod = createSpy(
+    'CheckoutAdapter.clearCheckoutPaymentMethod'
+  ).and.callFake((userId, cartId) =>
+    of(`clearCheckoutPaymentMethod-${userId}-${cartId}`)
+  );
 }
 
 describe('OrderConnector', () => {

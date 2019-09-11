@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  CheckoutPaymentService,
+  FeatureConfigService,
   PaymentDetails,
   TranslationService,
   UserPaymentService,
@@ -18,8 +20,30 @@ export class PaymentMethodsComponent implements OnInit {
   loading$: Observable<boolean>;
 
   constructor(
+    userPaymentService: UserPaymentService,
+    translation: TranslationService,
+    checkoutPaymentService: CheckoutPaymentService,
+    featureConfigService: FeatureConfigService
+  );
+  /**
+   * @deprecated since version 1.2
+   * Use constructor(userPaymentService: UserPaymentService,
+   * translation: TranslationService,
+   * checkoutPaymentService: CheckoutPaymentService,
+   * featureConfigService: FeatureConfigService) instead
+   *
+   *  TODO(issue:#4309) Deprecated since 1.2.0
+   */
+  constructor(
+    userPaymentService: UserPaymentService,
+    translation: TranslationService
+  );
+
+  constructor(
     private userPaymentService: UserPaymentService,
-    private translation: TranslationService
+    private translation: TranslationService,
+    private checkoutPaymentService?: CheckoutPaymentService,
+    private featureConfigService?: FeatureConfigService
   ) {}
 
   ngOnInit(): void {
@@ -87,6 +111,16 @@ export class PaymentMethodsComponent implements OnInit {
   deletePaymentMethod(paymentMethod: PaymentDetails): void {
     this.userPaymentService.deletePaymentMethod(paymentMethod.id);
     this.editCard = null;
+    /**
+     * TODO(issue:#4309) Deprecated since 1.2.0
+     */
+    if (
+      this.featureConfigService &&
+      this.featureConfigService.isLevel('1.2') &&
+      this.checkoutPaymentService
+    ) {
+      this.checkoutPaymentService.clearCheckoutPaymentMethod();
+    }
   }
 
   setEdit(paymentMethod: PaymentDetails): void {
@@ -99,5 +133,15 @@ export class PaymentMethodsComponent implements OnInit {
 
   setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
     this.userPaymentService.setPaymentMethodAsDefault(paymentMethod.id);
+    /**
+     * TODO(issue:#4309) Deprecated since 1.2.0
+     */
+    if (
+      this.featureConfigService &&
+      this.featureConfigService.isLevel('1.2') &&
+      this.checkoutPaymentService
+    ) {
+      this.checkoutPaymentService.clearCheckoutPaymentMethod();
+    }
   }
 }

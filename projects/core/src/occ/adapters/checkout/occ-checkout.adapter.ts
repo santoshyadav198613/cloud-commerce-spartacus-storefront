@@ -72,4 +72,12 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
     )}${cartId}/deliverymode`;
     return this.http.delete<any>(url);
   }
+
+  clearCheckoutPaymentMethod(userId: string, cartId: string): Observable<any> {
+    const url = `${this.getEndpoint(
+      userId,
+      CARTS_ENDPOINT
+    )}${cartId}/paymentdetails`;
+    return this.http.delete<any>(url);
+  }
 }

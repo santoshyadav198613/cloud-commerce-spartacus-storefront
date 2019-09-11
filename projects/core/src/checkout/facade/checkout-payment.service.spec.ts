@@ -116,8 +116,19 @@ describe('CheckoutPaymentService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.SetPaymentDetails({
         userId: userId,
-        cartId: cartData.cart.code,
+        cartId: cartData.cartId,
         paymentDetails,
+      })
+    );
+  });
+
+  it('should set payment details', () => {
+    service.clearCheckoutPaymentMethod();
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.ClearCheckoutPaymentMethod({
+        userId: userId,
+        cartId: cartData.cartId,
       })
     );
   });

@@ -361,4 +361,19 @@ describe('Checkout effect', () => {
       expect(entryEffects.clearCheckoutDeliveryMode$).toBeObservable(expected);
     });
   });
+
+  describe('clearCheckoutPaymentMethod$', () => {
+    it('should clear checkout payment method', () => {
+      const action = new CheckoutActions.ClearCheckoutPaymentMethod({
+        userId: userId,
+        cartId: cartId,
+      });
+      const completion = new CheckoutActions.ClearCheckoutPaymentMethodSuccess();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.clearCheckoutPaymentMethod$).toBeObservable(expected);
+    });
+  });
 });
