@@ -72,6 +72,7 @@ class MockCheckoutConnector {
   placeOrder = () => of({});
   clearCheckoutDeliveryAddress = () => of({});
   clearCheckoutDeliveryMode = () => of({});
+  clearCheckoutPaymentMethod = () => of({});
 }
 
 describe('Checkout effect', () => {
