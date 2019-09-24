@@ -12,6 +12,7 @@ import {
   fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
+import { standardUser } from '../sample-data/shared-users';
 
 export function visitHomePage() {
   const homePage = waitForPage('homepage', 'getHomePage');
@@ -26,14 +27,19 @@ export function signOut() {
 }
 
 export function registerUser() {
-  const loginPage = waitForPage('/login', 'getLoginPage');
+  let loginPage = waitForPage('/login', 'getLoginPage');
   cy.getByText(/Sign in \/ Register/i).click();
   cy.wait(`@${loginPage}`);
   const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.getByText('Register').click();
   cy.wait(`@${registerPage}`);
+  loginPage = waitForPage('/login', 'getLoginPage');
   register(user);
   cy.wait(`@${loginPage}`);
+}
+
+export function requireLoggedIn() {
+  cy.requireLoggedIn(standardUser, { freshUserOnTestRefresh: true });
 }
 
 export function signOutUser() {
@@ -212,21 +218,21 @@ export function goToCheapProductDetailsPage() {
   });
 }
 
-export function addCheapProductToCartAndLogin() {
+export function addCheapProductToCart() {
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
     .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', cheapProduct.name);
   });
-  const loginPage = waitForPage('/login', 'getLoginPage');
+  // const loginPage = waitForPage('/login', 'getLoginPage');
   cy.getByText(/proceed to checkout/i).click();
-  cy.wait(`@${loginPage}`);
+  // cy.wait(`@${loginPage}`);
   const shippingPage = waitForPage(
     '/checkout/shipping-address',
     'getShippingPage'
   );
-  loginUser();
+  // loginUser();
   cy.wait(`@${shippingPage}`);
 }
 

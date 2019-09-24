@@ -9,6 +9,15 @@ export const config = {
   },
 };
 
+export function formatToken(rawToken) {
+  const token = { ...rawToken };
+  const date = new Date();
+  date.setSeconds(date.getSeconds() + rawToken.expires_in);
+  token.expiration_time = date.toJSON();
+  token.userId = 'current';
+  return token;
+}
+
 export function login(
   uid: string,
   password: string,

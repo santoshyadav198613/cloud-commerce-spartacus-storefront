@@ -11,9 +11,10 @@ context('Express checkout', () => {
 
   describe('should redirect to first step if there are missing address and payment', () => {
     it('go to checkout', () => {
-      checkout.registerUser();
+      // checkout.registerUser();
+      checkout.requireLoggedIn();
       checkout.goToCheapProductDetailsPage();
-      checkout.addCheapProductToCartAndLogin();
+      checkout.addCheapProductToCart();
     });
 
     it('should verify Shipping Address page', () => {
@@ -60,9 +61,8 @@ context('Express checkout', () => {
           defaultDeliveryMode: ['MOST_EXPENSIVE'],
         },
       } as CheckoutConfig);
-      cy.saveLocalStorage();
       cy.visit('/');
-      cy.restoreLocalStorage();
+      checkout.requireLoggedIn();
     });
     it('open cart', () => {
       cy.get('cx-mini-cart').click();
@@ -80,6 +80,9 @@ context('Express checkout', () => {
 
   describe('should redirect to first step if there is missing payment', () => {
     it('delete payment', () => {
+      cy.window().then(win => {
+        win['spartacus'].navigate(JSON.stringify(['my-account/payment-details']))
+      })
       cy.selectUserMenuOption({
         option: 'Payment Details',
       });

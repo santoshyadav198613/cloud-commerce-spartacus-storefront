@@ -1,6 +1,6 @@
 import * as checkoutAsPersistentUser from '../../helpers/checkout-as-persistent-user';
 import { formats } from '../../sample-data/viewports';
-import { config, login, setSessionData } from '../../support/utils/login';
+import { config, login, setSessionData, formatToken } from '../../support/utils/login';
 
 function checkoutAsPersistentUserTest() {
   const username = 'test-user-cypress@ydev.hybris.com';
@@ -27,6 +27,9 @@ function checkoutAsPersistentUserTest() {
         if (res.status === 200) {
           // User is already registered - only set session in localStorage
           setSessionData({ ...res.body, userId: username });
+          cy.window().then(win => {
+            win['spartacus'].authorizeWithToken(JSON.stringify(formatToken(res.body)));
+          })
         } else {
           // User needs to be registered
           retrieveAuthToken().then(response =>

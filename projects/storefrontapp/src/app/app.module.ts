@@ -9,7 +9,7 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
-import { TestConfigModule } from '@spartacus/core';
+import { TestConfigModule, TestAppActionsModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
   StorefrontComponent,
@@ -56,6 +56,9 @@ if (!environment.production) {
           },
         },
       },
+      checkout: {
+        // express: true,
+      },
       // we bring in static translations to be up and running soon right away
       i18n: {
         resources: translations,
@@ -70,7 +73,7 @@ if (!environment.production) {
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
 
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
-
+    TestAppActionsModule,
     ...devImports,
   ],
 

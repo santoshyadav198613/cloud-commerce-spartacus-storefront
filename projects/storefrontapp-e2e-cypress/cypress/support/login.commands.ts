@@ -1,4 +1,4 @@
-import { login, setSessionData } from './utils/login';
+import { login, formatToken } from './utils/login';
 
 declare global {
   namespace Cypress {
@@ -21,6 +21,9 @@ declare global {
 Cypress.Commands.add('login', (username: string, password: string) => {
   cy.server();
   login(username, password).then(res => {
-    setSessionData(res.body);
+    cy.window().then((win: any) => {
+      win.spartacus.authorizeWithToken(JSON.stringify(formatToken(res.body)));
+    })
+    // setSessionData(res.body);
   });
 });

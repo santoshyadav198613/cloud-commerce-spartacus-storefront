@@ -1,5 +1,5 @@
 import { generateMail, randomString } from '../helpers/user';
-import { config, login, setSessionData } from './utils/login';
+import { config, login, setSessionData, formatToken } from './utils/login';
 
 declare global {
   namespace Cypress {
@@ -90,10 +90,14 @@ Cypress.Commands.add(
       generateMail(account.user, options.freshUserOnTestRefresh);
 
     cy.server();
+
     login(username, account.registrationData.password, false).then(res => {
       if (res.status === 200) {
         // User is already registered - only set session in sessionStorage
-        setSessionData(res.body);
+        cy.window().then(win => {
+          console.log(JSON.stringify(formatToken(res.body)))
+          win['spartacus'].authorizeWithToken(JSON.stringify(formatToken(res.body)));
+        })
       } else {
         /* User needs to be registered
            1. Login as guest for access token
@@ -110,7 +114,9 @@ Cypress.Commands.add(
           )
           .then(() => login(username, account.registrationData.password))
           .then(response => {
-            setSessionData(response.body);
+            cy.window().then(win => {
+              win['spartacus'].authorizeWithToken(JSON.stringify(formatToken(response.body)));
+            })
           });
       }
     });
