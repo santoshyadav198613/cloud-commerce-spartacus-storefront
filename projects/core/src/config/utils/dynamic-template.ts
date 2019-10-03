@@ -26,6 +26,15 @@ export class DynamicTemplate {
         query = query.replace(result, value);
       }
     }
-    return query;
+
+    return DynamicTemplate.isValidUrl(query) ? query : '';
+  }
+
+  static isValidUrl(query: string): boolean {
+    const valid = !Boolean(query.match(/\.\.\//g));
+    if (isDevMode() && !valid) {
+      console.warn('Invalid query, relative paths are not supported.');
+    }
+    return valid;
   }
 }
