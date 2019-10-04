@@ -30,6 +30,9 @@ export class DynamicTemplate {
     return DynamicTemplate.isValidUrl(query) ? query : '';
   }
 
+  /**
+   * Function meant to prevent accidental uses of path in the url configuration
+   */
   static isValidUrl(query: string): boolean {
     const valid = !Boolean(query.match(/\.\.\//g));
     if (isDevMode() && !valid) {
