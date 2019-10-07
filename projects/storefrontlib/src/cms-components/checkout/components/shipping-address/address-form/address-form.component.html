@@ -102,7 +102,7 @@
           />
         </label>
       </div>
-      <div class="row">
+      <div class="row" *ngIf="townEnable$ | async">
         <div class="form-group col-md-6">
           <label>
             <span class="label-content required">{{
@@ -117,12 +117,11 @@
             />
           </label>
         </div>
-        <div class="form-group col-md-6">
-          <ng-container
-            *ngIf="regions$ | async as regions"
-            formGroupName="region"
-          >
-            <div *ngIf="regions.length !== 0">
+      </div>
+      <ng-container *ngIf="regions$ | async as regions">
+        <ng-container *ngIf="regions.length !== 0">
+          <div class="row" formGroupName="region">
+            <div class="form-group col-md-6">
               <label aria-required="true">
                 <span class="label-content required">{{
                   'addressForm.state' | cxTranslate
@@ -141,8 +140,62 @@
                 </ng-select>
               </label>
             </div>
+          </div>
+        </ng-container>
+      </ng-container>
+      <ng-container *cxFeature="'chineseAddress'">
+        <ng-container *ngIf="cities$ | async as cities">
+          <ng-container *ngIf="cities.length !== 0">
+            <div class="row" formGroupName="city">
+              <div class="form-group col-md-6" >
+                <label aria-required="true">
+                  <span class="label-content required">
+                    City
+                  </span>
+                  <ng-select
+                    class="city-select"
+                    formControlName="isocode"
+                    [searchable]="true"
+                    [clearable]="false"
+                    [items]="cities"
+                    bindLabel="name"
+                    bindValue="isocode"
+                    placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
+                    (change)="citySelected($event)"
+                  >
+                  </ng-select>
+                </label>
+              </div>
+            </div>
           </ng-container>
-        </div>
+        </ng-container>
+        <ng-container *ngIf="districts$ | async as districts">
+            <ng-container *ngIf="districts.length !== 0">
+              <div class="row" formGroupName="cityDistrict">
+                <div class="form-group col-md-6">
+                  <label aria-required="true">
+                    <span class="label-content required">
+                      District
+                    </span>
+                    <ng-select
+                      class="cityDistrict-select"
+                      formControlName="isocode"
+                      [searchable]="true"
+                      [clearable]="false"
+                      [items]="districts"
+                      bindLabel="name"
+                      bindValue="isocode"
+                      placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
+                      (change)="districtSelected($event)"
+                    >
+                    </ng-select>
+                  </label>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+      </ng-container>
+      <div class="row">
         <div class="form-group col-md-6">
           <label>
             <span class="label-content required">{{
@@ -175,6 +228,21 @@
           />
         </label>
       </div>
+      <ng-container *cxFeature="'chineseAddress'">
+        <div class="form-group" *ngIf="!(townEnable$ | async)">
+          <label>
+            <span class="label-content">
+              Cellphone
+            </span>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Cellphone"
+              formControlName="cellphone"
+            />
+          </label>
+        </div>
+      </ng-container>
       <div class="form-group" *ngIf="setAsDefaultField !== false">
         <div class="form-check">
           <label>

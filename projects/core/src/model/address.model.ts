@@ -17,6 +17,16 @@ export interface Region {
   name?: string;
 }
 
+export interface City {
+  isocode?: string;
+  name?: string;
+}
+
+export interface District {
+  isocode?: string;
+  name?: string;
+}
+
 export interface Address {
   companyName?: string;
   country?: Country;
@@ -36,6 +46,8 @@ export interface Address {
   titleCode?: string;
   town?: string;
   visibleInAddressBook?: boolean;
+  city?: City;
+  cityDistrict?: District;
 }
 
 export interface AddressValidation {

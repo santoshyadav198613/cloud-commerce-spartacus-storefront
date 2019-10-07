@@ -1,4 +1,4 @@
-import { Address, Country, Region } from '../../model/address.model';
+import { Address, Country, Region, City, District } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
 import { ConsentTemplate } from '../../model/consent.model';
 import { ConsignmentTracking } from '../../model/consignment-tracking.model';
@@ -20,6 +20,8 @@ export const USER_PAYMENT_METHODS = '[User] User Payment Methods';
 export const USER_ORDERS = '[User] User Orders';
 export const USER_ADDRESSES = '[User] User Addresses';
 export const REGIONS = '[User] Regions';
+export const CITIES = '[User] Cities';
+export const DISTRICTS = '[User] Districts';
 
 export interface StateWithUser {
   [USER_FEATURE]: UserState;
@@ -38,6 +40,8 @@ export interface UserState {
   regions: LoaderState<RegionsState>;
   resetPassword: boolean;
   consignmentTracking: ConsignmentTrackingState;
+  cities: LoaderState<CitiesState>;
+  districts: LoaderState<DistrictsState>;
 }
 
 export interface OrderDetailsState {
@@ -47,6 +51,16 @@ export interface OrderDetailsState {
 export interface RegionsState {
   entities: Region[];
   country: string;
+}
+
+export interface CitiesState {
+  entities: City[];
+  region: string;
+}
+
+export interface DistrictsState {
+  entities: District[];
+  city: string;
 }
 
 export interface BillingCountryEntities {

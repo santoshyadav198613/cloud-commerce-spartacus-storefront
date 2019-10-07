@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Address, Country, Region } from '../../model/address.model';
+import { Address, Country, Region, City, District } from '../../model/address.model';
 import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
@@ -158,4 +158,63 @@ export class UserAddressService {
       })
     );
   }
+
+  loadCities(regionIsoCode: string): void{
+    this.store.dispatch(new UserActions.LoadCities(regionIsoCode));
+  }
+
+  clearCities(): void {
+    this.store.dispatch(new UserActions.ClearCities());
+  }
+
+  getCities(regionIsoCode: string): Observable<City[]> {
+    return this.store.pipe(
+      select(UsersSelectors.getCitiesDataAndLoading),
+      map(({ cities, region, loading, loaded }) => {
+        if (!regionIsoCode && (loading || loaded)) {
+          this.clearCities();
+          return [];
+        } else if (loading && !loaded) {
+          return [];
+        } else if (!loading && regionIsoCode !== region && regionIsoCode) {
+          if (region) {
+            this.clearCities();
+          }
+          this.loadCities(regionIsoCode);
+          return [];
+        }
+        return cities;
+      })
+    );
+  }
+
+  loadDistricts(cityCode: string): void{
+    this.store.dispatch(new UserActions.LoadDistricts(cityCode));
+  }
+
+  clearDistricts(): void {
+    this.store.dispatch(new UserActions.ClearDistricts());
+  }
+
+  getDistricts(cityIsoCode: string): Observable<District[]> {
+    return this.store.pipe(
+      select(UsersSelectors.getDistrictsDataAndLoading),
+      map(({ districts, city, loading, loaded }) => {
+        if (!cityIsoCode && (loading || loaded)) {
+          this.clearDistricts();
+          return [];
+        } else if (loading && !loaded) {
+          return [];
+        } else if (!loading && cityIsoCode !== city && cityIsoCode) {
+          if (city) {
+            this.clearDistricts();
+          }
+          this.loadDistricts(cityIsoCode);
+          return [];
+        }
+        return districts;
+      })
+    );
+  }
+  
 }

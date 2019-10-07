@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nModule } from '@spartacus/core';
+import { I18nModule, ConfigModule, FeaturesConfig, FeaturesConfigModule } from '@spartacus/core';
 import { AutoFocusDirectiveModule } from '../../../../../shared/directives/auto-focus/auto-focus.directive.module';
 import { IconModule } from '../../../../misc/icon/index';
 import { AddressFormComponent } from './address-form.component';
@@ -19,6 +19,12 @@ import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/su
     IconModule,
     I18nModule,
     AutoFocusDirectiveModule,
+    ConfigModule.withConfig(<FeaturesConfig>{
+      features: {
+        chineseAddress: '1.2',
+      },
+    }),
+    FeaturesConfigModule,
   ],
   declarations: [AddressFormComponent, SuggestedAddressDialogComponent],
   entryComponents: [SuggestedAddressDialogComponent],

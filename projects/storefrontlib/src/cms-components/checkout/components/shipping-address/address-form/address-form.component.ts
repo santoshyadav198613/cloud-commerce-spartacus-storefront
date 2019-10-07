@@ -22,6 +22,9 @@ import {
   Title,
   UserAddressService,
   UserService,
+  City,
+  District,
+  FeatureConfigService,
 } from '@spartacus/core';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 import {
@@ -39,6 +42,11 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   titles$: Observable<Title[]>;
   regions$: Observable<Region[]>;
   selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  cities$: Observable<City[]>;
+  selectedCity$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  districts$: Observable<District[]>;
+  selectedRegion$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  townEnable$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   @Input()
   addressData: Address;
@@ -83,6 +91,14 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     }),
     postalCode: ['', Validators.required],
     phone: '',
+    city: this.fb.group({
+      isocode: [null, Validators.required]
+    }),
+    cityDistrict: this.fb.group({
+      isocode: [null, Validators.required]
+    }),
+    cellphone: ['', Validators.required],
+    district: ['', Validators.required],
   });
 
   constructor(
@@ -91,7 +107,8 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     protected userService: UserService,
     protected userAddressService: UserAddressService,
     protected globalMessageService: GlobalMessageService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private featureConfigService: FeatureConfigService,
   ) {}
 
   ngOnInit() {
@@ -126,6 +143,30 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           regionControl.enable();
         } else {
           regionControl.disable();
+        }
+      })
+    );
+
+    this.cities$ = this.selectedRegion$.pipe(
+      switchMap(region => this.userAddressService.getCities(region)),
+      tap(cities => {
+        const cityControl = this.address.get('city.isocode');
+        if(cities && cities.length > 0){
+          cityControl.enable();
+        }else{
+          cityControl.disable();
+        }
+      })
+    );
+
+    this.districts$ = this.selectedCity$.pipe(
+      switchMap(city => this.userAddressService.getDistricts(city)),
+      tap(districts => {
+        const districtControl = this.address.get('cityDistrict.isocode');
+        if(districts && districts.length > 0){
+          districtControl.enable();
+        }else{
+          districtControl.disable();
         }
       })
     );
@@ -166,6 +207,14 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       if (this.addressData.region) {
         this.regionSelected(this.addressData.region);
       }
+      if(this.isChineseAddressEnabled()){
+        if(this.addressData.city){
+          this.citySelected(this.addressData.city);
+        }
+        if(this.addressData.cityDistrict){
+          this.districtSelected(this.addressData.cityDistrict);
+        }
+      }
     }
   }
 
@@ -178,11 +227,47 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       country.isocode
     );
     this.selectedCountry$.next(country.isocode);
+    if(this.isChineseAddressEnabled()){
+      this.selectedRegion$.next('');
+      this.selectedCity$.next('');
+      if(country.isocode === 'CN'){
+        this.townEnable$.next(false);
+        this.address['controls'].cellphone.enable();
+        this.address['controls'].district.enable();
+      }else{
+        this.townEnable$.next(true);
+        this.address['controls'].cellphone.disable();
+        this.address['controls'].district.disable();
+      }
+    }
   }
 
   regionSelected(region: Region): void {
     this.address['controls'].region['controls'].isocode.setValue(
       region.isocode
+    );
+    if(this.isChineseAddressEnabled()){
+      this.selectedRegion$.next(region.isocode);
+      this.selectedCity$.next('');
+    }
+  }
+
+  citySelected(city: City): void {
+    this.address['controls'].city['controls'].isocode.setValue(
+      city.isocode
+    );
+    this.address['controls'].town.setValue(
+      city.isocode
+    );
+    this.selectedCity$.next(city.isocode);
+  }
+
+  districtSelected(district: District): void {
+    this.address['controls'].cityDistrict['controls'].isocode.setValue(
+      district.isocode
+    );
+    this.address['controls'].district.setValue(
+      district.isocode
     );
   }
 
@@ -238,6 +323,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           this.suggestedAddressModalRef = null;
         });
     }
+  }
+
+  private isChineseAddressEnabled(): boolean{
+    return this.featureConfigService.isEnabled('chineseAddress');
   }
 
   ngOnDestroy() {

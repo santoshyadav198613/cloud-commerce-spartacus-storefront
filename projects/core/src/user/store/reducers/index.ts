@@ -19,6 +19,10 @@ import {
   USER_CONSENTS,
   USER_ORDERS,
   USER_PAYMENT_METHODS,
+  CITIES,
+  DISTRICTS,
+  CitiesState,
+  DistrictsState,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromConsignmentTrackingReducer from './consignment-tracking.reducer';
@@ -32,6 +36,8 @@ import * as fromAddressesReducer from './user-addresses.reducer';
 import * as fromUserConsentsReducer from './user-consents.reducer';
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
+import * as fromCitiesReducer from './cities.reducer';
+import * as fromDistrictsReducer from './districts.reducer';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
@@ -61,6 +67,8 @@ export function getReducers(): ActionReducerMap<UserState> {
     regions: loaderReducer<RegionsState>(REGIONS, fromRegionsReducer.reducer),
     resetPassword: fromResetPasswordReducer.reducer,
     consignmentTracking: fromConsignmentTrackingReducer.reducer,
+    cities: loaderReducer<CitiesState>(CITIES, fromCitiesReducer.reducer),
+    districts: loaderReducer<DistrictsState>(DISTRICTS, fromDistrictsReducer.reducer),
   };
 }
 

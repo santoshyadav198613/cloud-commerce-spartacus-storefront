@@ -27,3 +27,5 @@ export * from './shipping-address/address-form/address-form.component';
 export * from './shipping-address/address-form/address-form.module';
 export * from './shipping-address/shipping-address.component';
 export * from './shipping-address/shipping-address.module';
+export * from './tax-invoice/tax-invoice.component';
+export * from './tax-invoice/tax-invoice.module';

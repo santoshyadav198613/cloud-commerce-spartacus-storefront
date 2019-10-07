@@ -13,6 +13,7 @@ import { PlaceOrderModule } from './components/place-order/place-order.module';
 import { PromotionsModule } from './components/promotions/promotions.module';
 import { ReviewSubmitModule } from './components/review-submit/review-submit.module';
 import { ShippingAddressModule } from './components/shipping-address/shipping-address.module';
+import { TaxInvoiceModule } from './components/tax-invoice/tax-invoice.module';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { ShippingAddressModule } from './components/shipping-address/shipping-ad
     PromotionsModule,
     ReviewSubmitModule,
     ShippingAddressModule,
+    TaxInvoiceModule,
   ],
 })
 export class CheckoutComponentModule {}

@@ -138,6 +138,18 @@ export interface OccEndpoints {
    */
   regions?: string;
   /**
+   * Fetch the list of cities for the provided region
+   *
+   * @member {string}
+   */
+  cities?: string;
+  /**
+   * Fetch the list of districts for the provided city
+   *
+   * @member {string}
+   */
+  districts?: string;
+  /**
    * Titles used for user's personal info.
    *
    * @member {string}
