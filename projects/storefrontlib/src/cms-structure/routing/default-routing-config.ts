@@ -16,7 +16,6 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   checkoutDeliveryMode: { paths: ['checkout/delivery-mode'] },
   checkoutPaymentDetails: { paths: ['checkout/payment-details'] },
   checkoutReviewOrder: { paths: ['checkout/review-order'] },
-  checkoutTaxInvoice: { paths: ['checkout/tax-invoice'] },
   orderConfirmation: { paths: ['order-confirmation'] },
 
   // plp routes
