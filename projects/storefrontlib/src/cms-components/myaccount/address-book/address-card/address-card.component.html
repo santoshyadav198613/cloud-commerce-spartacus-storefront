@@ -9,7 +9,8 @@
     <div *ngIf="editMode" class="cx-address-card-delete-msg">
       {{ 'addressBook.areYouSureToDeleteAddress' | cxTranslate }}
     </div>
-    <div class="cx-address-data">
+    
+    <div class="cx-address-data" *ngIf="!isChineseAddressFormatingEnabled">
       <div class="cx-address-card-label-name">
         {{ address?.firstName }} {{ address?.lastName }}
       </div>
@@ -24,6 +25,23 @@
       </div>
       <div class="cx-address-card-label">{{ address?.postalCode }}</div>
       <div class="cx-address-card-label">{{ address?.phone }}</div>
+    </div>
+
+    <div class="cx-address-data" *ngIf="isChineseAddressFormatingEnabled">
+      <div class="cx-address-card-label-name">
+        {{ address?.firstName }} {{ address?.lastName }}
+      </div>
+      <div class="cx-address-card-label">
+        <span *ngIf="!address?.region?.isocode">{{
+          address?.country?.isocode
+        }}</span>
+        <span>{{ address?.region?.isocode }}</span>
+        {{ address?.town }}
+      </div>
+      <div class="cx-address-card-label">{{ address?.line1 }}</div>
+      <div class="cx-address-card-label">{{ address?.line2 }}</div>
+      <div class="cx-address-card-label">{{ address?.phone }}</div>
+      <div class="cx-address-card-label">{{ address?.postalCode }}</div>
     </div>
 
     <div *ngIf="editMode" class="row cx-address-card-delete">

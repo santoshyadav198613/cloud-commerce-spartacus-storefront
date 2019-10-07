@@ -1,18 +1,22 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import {
   Address,
   CheckoutDeliveryService,
   FeatureConfigService,
   UserAddressService,
+  LanguageService,
 } from '@spartacus/core';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-address-card',
   templateUrl: './address-card.component.html',
 })
-export class AddressCardComponent {
+export class AddressCardComponent implements OnInit {
+  
   editMode: boolean;
   isDefault: boolean;
+  isChineseAddressFormatingEnabled = false;
 
   @Input() address: Address;
 
@@ -21,7 +25,8 @@ export class AddressCardComponent {
   constructor(
     userAddressService: UserAddressService,
     checkoutDeliveryService: CheckoutDeliveryService,
-    featureConfigService: FeatureConfigService
+    featureConfigService: FeatureConfigService,
+    languageService: LanguageService,
   );
   /**
    * @deprecated since version 1.2
@@ -35,8 +40,15 @@ export class AddressCardComponent {
   constructor(
     private userAddressService: UserAddressService,
     protected checkoutDeliveryService?: CheckoutDeliveryService,
-    private featureConfigService?: FeatureConfigService
+    private featureConfigService?: FeatureConfigService,
+    private languageService?: LanguageService,
   ) {}
+
+  ngOnInit(): void {
+    this.languageService.getActive().pipe(
+      map(lang => lang && lang === 'zh' && this.isChineseAddressEnabled())
+    ).subscribe(enabled => this.isChineseAddressFormatingEnabled = enabled);
+  }
 
   openEditFormEvent(): void {
     this.editEvent.emit();
@@ -76,5 +88,9 @@ export class AddressCardComponent {
     ) {
       this.checkoutDeliveryService.clearCheckoutDeliveryDetails();
     }
+  }
+
+  private isChineseAddressEnabled(): boolean{
+    return this.featureConfigService.isEnabled('chineseAddress');
   }
 }
