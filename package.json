@@ -96,7 +96,8 @@
     "i18next-xhr-backend": "^2.0.1",
     "rxjs": "^6.4.0",
     "ts-loader": "^6.0.4",
-    "zone.js": "^0.10.2"
+    "zone.js": "^0.10.2",
+    "ngx-infinite-scroll": "^8.0.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.803.4",
