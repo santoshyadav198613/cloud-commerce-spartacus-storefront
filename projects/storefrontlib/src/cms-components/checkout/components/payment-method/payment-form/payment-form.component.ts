@@ -49,6 +49,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   cardTypes$: Observable<CardType[]>;
   shippingAddress$: Observable<Address>;
   countries$: Observable<Country[]>;
+  loading$: Observable<boolean>;
   sameAsShippingAddress = true;
 
   @Input()
@@ -148,6 +149,8 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
           this.openSuggestedAddress(results);
         }
       });
+
+    this.loading$ = this.checkoutPaymentService.getCheckoutLoaderState();
   }
 
   expMonthAndYear(): void {
@@ -268,6 +271,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
+    this.checkoutPaymentService.loadPaymentProcessing();
     this.setPaymentDetails.emit({
       paymentDetails: this.payment.value,
       billingAddress: this.sameAsShippingAddress

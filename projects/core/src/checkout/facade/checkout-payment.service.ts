@@ -46,6 +46,21 @@ export class CheckoutPaymentService {
     );
   }
 
+  getCheckoutLoaderState(): Observable<boolean> {
+    return this.checkoutStore.pipe(
+      select(CheckoutSelectors.getCheckoutStepsLoadingState)
+    );
+  }
+
+  loadPaymentProcessing(): void {
+    this.checkoutStore.dispatch(
+      new CheckoutActions.LoadCheckoutDetails({
+        userId: this.cartData.userId,
+        cartId: this.cartData.cartId,
+      })
+    );
+  }
+
   /**
    * Clear info about process of setting Payment Details
    */

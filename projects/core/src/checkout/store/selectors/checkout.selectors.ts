@@ -36,6 +36,14 @@ export const getCheckoutStepsState: MemoizedSelector<
   (checkoutState: CheckoutState) => checkoutState.steps
 );
 
+export const getCheckoutStepsLoadingState: MemoizedSelector<
+  StateWithCheckout,
+  boolean
+> = createSelector(
+  getCheckoutState,
+  (checkoutState: CheckoutState) => checkoutState.steps.loading
+);
+
 export const getCheckoutSteps: MemoizedSelector<
   StateWithCheckout,
   CheckoutStepsState
