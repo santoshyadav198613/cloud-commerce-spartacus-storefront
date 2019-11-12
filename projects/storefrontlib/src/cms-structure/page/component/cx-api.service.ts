@@ -1,5 +1,6 @@
 import { Injectable, NgZone, Optional } from '@angular/core';
 import {
+  AnonymousConsentsService,
   AuthService,
   BaseSiteService,
   CartDataService,
@@ -8,6 +9,7 @@ import {
   CheckoutPaymentService,
   CheckoutService,
   CmsService,
+  ConsentService,
   CurrencyService,
   FeatureConfigService,
   GlobalMessageService,
@@ -72,6 +74,8 @@ export class CxApiService {
     @Optional() public language: LanguageService,
     @Optional() public baseSite: BaseSiteService,
     // user
+    @Optional() public anonymousConsents: AnonymousConsentsService,
+    @Optional() public consent: ConsentService,
     @Optional() public user: UserService,
     @Optional() public userAddress: UserAddressService,
     @Optional() public userConsent: UserConsentService,
