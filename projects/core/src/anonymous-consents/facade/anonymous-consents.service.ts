@@ -5,6 +5,7 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import {
   AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
+  CommonConsent,
   ConsentTemplate,
 } from '../../model/index';
 import { AnonymousConsentsActions } from '../store/actions/index';
@@ -12,31 +13,21 @@ import { StateWithAnonymousConsents } from '../store/anonymous-consents-state';
 import { AnonymousConsentsSelectors } from '../store/selectors/index';
 
 @Injectable({ providedIn: 'root' })
-export class AnonymousConsentsService {
+export class AnonymousConsentsService implements CommonConsent {
   constructor(protected store: Store<StateWithAnonymousConsents>) {}
 
-  /**
-   * Retrieves the anonymous consent templates.
-   */
   loadTemplates(): void {
     this.store.dispatch(
       new AnonymousConsentsActions.LoadAnonymousConsentTemplates()
     );
   }
 
-  /**
-   * Returns all the anonymous consent templates.
-   */
   getTemplates(): Observable<ConsentTemplate[]> {
     return this.store.pipe(
       select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesValue)
     );
   }
 
-  /**
-   * Returns the anonymous consent templates with the given template code.
-   * @param templateCode a template code by which to filter anonymous consent templates.
-   */
   getTemplate(templateCode: string): Observable<ConsentTemplate> {
     return this.store.pipe(
       select(
@@ -45,36 +36,24 @@ export class AnonymousConsentsService {
     );
   }
 
-  /**
-   * Returns an indicator for the loading status for the anonymous consent templates.
-   */
   getLoadTemplatesLoading(): Observable<boolean> {
     return this.store.pipe(
       select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesLoading)
     );
   }
 
-  /**
-   * Returns an indicator for the success status for the anonymous consent templates.
-   */
   getLoadTemplatesSuccess(): Observable<boolean> {
     return this.store.pipe(
       select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesSuccess)
     );
   }
 
-  /**
-   * Returns an indicator for the error status for the anonymous consent templates.
-   */
   getLoadTemplatesError(): Observable<boolean> {
     return this.store.pipe(
       select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesError)
     );
   }
 
-  /**
-   * Resets the loading, success and error indicators for the anonymous consent templates.
-   */
   resetLoadTemplatesState(): void {
     this.store.dispatch(
       new AnonymousConsentsActions.ResetLoadAnonymousConsentTemplates()

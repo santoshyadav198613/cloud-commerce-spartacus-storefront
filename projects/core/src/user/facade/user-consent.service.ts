@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
-import { ConsentTemplate } from '../../model/consent.model';
+import {
+  CommonConsent,
+  Consent,
+  ConsentTemplate,
+} from '../../model/consent.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -21,7 +25,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class UserConsentService {
+export class UserConsentService implements CommonConsent {
   constructor(
     store: Store<StateWithUser | StateWithProcess<void>>,
     // tslint:disable-next-line:unified-signatures
@@ -41,8 +45,18 @@ export class UserConsentService {
 
   /**
    * Retrieves all consents.
+   * @deprecated since version 1.3
+   * In 2.0 only `loadTemplates()` will be available.
    */
+  // TODO(issue:4989) - remove
   loadConsents(): void {
+    this.loadTemplates();
+  }
+
+  /**
+   * Loads all the consent templates.
+   */
+  loadTemplates(): void {
     this.authService
       .getOccUserId()
       .pipe(take(1))
@@ -53,37 +67,87 @@ export class UserConsentService {
   }
 
   /**
-   * Returns all consents
+   * Returns all consents.
+   * @deprecated since version 1.3
+   * In 2.0 only `getTemplates()` will be available.
    */
+  // TODO(issue:4989) - remove
   getConsents(): Observable<ConsentTemplate[]> {
+    return this.getTemplates();
+  }
+
+  getTemplates(): Observable<ConsentTemplate[]> {
     return this.store.pipe(select(UsersSelectors.getConsentsValue));
+  }
+
+  getTemplate(templateId: string): Observable<ConsentTemplate> {
+    return this.getTemplates().pipe(
+      // TODO:#5361 use a selector here
+      map(templates => templates.find(template => template.id === templateId))
+    );
+  }
+
+  // TODO:#5361 comment and test
+  getConsent(templateId: string): Observable<Consent> {
+    return this.getTemplate(templateId).pipe(
+      filter(template => Boolean(template)),
+      map(template => template.currentConsent)
+    );
   }
 
   /**
    * Returns the consents loading flag
+   * @deprecated since version 1.3
+   * In 2.0 only `getLoadTemplatesLoading()` will be available.
    */
+  // TODO(issue:4989) - remove
   getConsentsResultLoading(): Observable<boolean> {
+    return this.getLoadTemplatesLoading();
+  }
+
+  getLoadTemplatesLoading(): Observable<boolean> {
     return this.store.pipe(select(UsersSelectors.getConsentsLoading));
   }
 
   /**
    * Returns the consents success flag
+   * @deprecated since version 1.3
+   * In 2.0 only `getLoadTemplatesSuccess()` will be available.
    */
+  // TODO(issue:4989) - remove
   getConsentsResultSuccess(): Observable<boolean> {
+    return this.getLoadTemplatesSuccess();
+  }
+
+  getLoadTemplatesSuccess(): Observable<boolean> {
     return this.store.pipe(select(UsersSelectors.getConsentsSuccess));
   }
 
   /**
    * Returns the consents error flag
+   * @deprecated since version 1.3
+   * In 2.0 only `getLoadTemplatesError()` will be available.
    */
+  // TODO(issue:4989) - remove
   getConsentsResultError(): Observable<boolean> {
+    return this.getLoadTemplatesError();
+  }
+
+  getLoadTemplatesError(): Observable<boolean> {
     return this.store.pipe(select(UsersSelectors.getConsentsError));
   }
 
   /**
    * Resets the processing state for consent retrieval
+   * @deprecated since version 1.3
+   * In 2.0 only `resetLoadTemplatesState()` will be available.
    */
+  // TODO(issue:4989) - remove
   resetConsentsProcessState(): void {
+    this.resetLoadTemplatesState();
+  }
+
+  resetLoadTemplatesState(): void {
     this.store.dispatch(new UserActions.ResetLoadUserConsents());
   }
 
