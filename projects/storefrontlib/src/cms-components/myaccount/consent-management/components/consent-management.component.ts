@@ -303,6 +303,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     return checkTimesLoaded$;
   }
 
+  // TODO:#5361 - delete
   private isConsentGiven(consentTemplate: ConsentTemplate): boolean {
     return (
       Boolean(consentTemplate.currentConsent) &&
@@ -359,6 +360,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     return checkTimesLoaded$;
   }
 
+  // TODO:#5361 - delete and switch to the facade
   private isConsentWithdrawn(consentTemplate: ConsentTemplate): boolean {
     if (Boolean(consentTemplate.currentConsent)) {
       return Boolean(consentTemplate.currentConsent.consentWithdrawnDate);
@@ -366,6 +368,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     return true;
   }
 
+  // TODO:#5361 - delete and switch to the facade
   private isRequiredConsent(template: ConsentTemplate): boolean {
     if (!this.isAnonymousConsentsEnabled) {
       return false;

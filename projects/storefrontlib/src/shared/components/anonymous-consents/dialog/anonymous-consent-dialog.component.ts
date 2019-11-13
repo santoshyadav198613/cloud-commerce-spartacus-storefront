@@ -101,6 +101,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
     this.closeModal('allowAll');
   }
 
+  // TODO:#5361 - delete and switch to the facade
   private isRequiredConsent(template: ConsentTemplate): boolean {
     return (
       Boolean(this.config.anonymousConsents) &&

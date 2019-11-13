@@ -150,6 +150,13 @@ export class AnonymousConsentsService implements CommonConsent {
     return consent.consentState === ANONYMOUS_CONSENT_STATUS.WITHDRAWN;
   }
 
+  isRequiredConsent(
+    template: ConsentTemplate,
+    requiredConsents: string[]
+  ): boolean {
+    return requiredConsents.includes(template.id);
+  }
+
   /**
    * Toggles the dismissed state of the anonymous consents banner.
    * @param dismissed the banner will be dismissed if `true` is passed, otherwise it will be visible.

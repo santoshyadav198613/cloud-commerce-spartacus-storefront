@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { concat, Observable } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  scan,
+  take,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import {
   CommonConsent,
@@ -206,6 +214,52 @@ export class UserConsentService implements CommonConsent {
     return this.store.dispatch(new UserActions.ResetGiveUserConsentProcess());
   }
 
+  giveAllConsents(requiredConsents: string[]): Observable<ConsentTemplate[]> {
+    const loading$ = concat(this.getGiveConsentResultLoading()).pipe(
+      distinctUntilChanged(),
+      filter(loading => !loading)
+    );
+
+    const templates$ = this.getTemplates().pipe(
+      map(templates =>
+        templates
+          .filter(template => this.isConsentWithdrawn(template))
+          .filter(template =>
+            this.isRequiredConsent(template, requiredConsents)
+          )
+      )
+    );
+
+    const count$ = loading$.pipe(scan((acc, _value) => acc + 1, -1));
+
+    const giveConsent$ = count$.pipe(
+      withLatestFrom(templates$),
+      tap(([i, consentsToGive]) => {
+        if (i < consentsToGive.length) {
+          this.giveConsent(consentsToGive[i].id, consentsToGive[i].version);
+        }
+      })
+    );
+
+    const checkTimesLoaded$ = giveConsent$.pipe(
+      filter(
+        ([timesLoaded, consentsToGive]) => timesLoaded === consentsToGive.length
+      )
+    );
+
+    return checkTimesLoaded$.pipe(
+      map(([_i, consentsToGive]) => consentsToGive)
+    );
+  }
+
+  isConsentGiven(template: ConsentTemplate): boolean {
+    return (
+      Boolean(template.currentConsent) &&
+      Boolean(template.currentConsent.consentGivenDate) &&
+      !Boolean(template.currentConsent.consentWithdrawnDate)
+    );
+  }
+
   /**
    * Withdraw consent for the given `consentCode`
    * @param consentCode for which to withdraw the consent
@@ -259,6 +313,20 @@ export class UserConsentService implements CommonConsent {
     return this.store.dispatch(
       new UserActions.ResetWithdrawUserConsentProcess()
     );
+  }
+
+  isConsentWithdrawn(template: ConsentTemplate): boolean {
+    if (Boolean(template.currentConsent)) {
+      return Boolean(template.currentConsent.consentWithdrawnDate);
+    }
+    return true;
+  }
+
+  isRequiredConsent(
+    template: ConsentTemplate,
+    requiredConsents: string[]
+  ): boolean {
+    return requiredConsents.includes(template.id);
   }
 
   /**

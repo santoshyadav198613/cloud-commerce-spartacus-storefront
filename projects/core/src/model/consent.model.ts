@@ -68,9 +68,26 @@ export interface CommonConsent {
    * @param consentTemplateVersion a template version for which to give the consent. Used only in context of registered consents
    */
   giveConsent(templateId: string, consentTemplateVersion?: number): void;
+  // TODO:
+  giveAllConsents(requiredConsents: string[]): Observable<ConsentTemplate[]>;
   /**
    * Withdraw consent for the given `consentCode`
    * @param templateIdOrConsentCode in context of anonymous consents the consumer should pass template id. In context of registered user consents, the consumer should provide a consent code.
    */
   withdrawConsent(templateIdOrConsentCode: string): void;
+  // TODO:
+  withdrawAllConsents(): Observable<ConsentTemplate[]>;
+  // TODO:
+  isConsentGiven(
+    consentOrTemplate: AnonymousConsent | ConsentTemplate
+  ): boolean;
+  // TODO:
+  isConsentWithdrawn(
+    consentOrTemplate: AnonymousConsent | ConsentTemplate
+  ): boolean;
+  // TODO:
+  isRequiredConsent(
+    template: ConsentTemplate,
+    requiredConsents: string[]
+  ): boolean;
 }
