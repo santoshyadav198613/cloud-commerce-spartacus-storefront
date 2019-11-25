@@ -34,7 +34,7 @@ export const getNextPageContext: MemoizedSelector<
 > = createSelector(
   getRouterState,
   (routingState: RouterState) =>
-    routingState.nextState && routingState.nextState.context
+    routingState.nextState?.context
 );
 
 export const isNavigating: MemoizedSelector<any, boolean> = createSelector(

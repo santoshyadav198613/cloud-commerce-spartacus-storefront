@@ -76,7 +76,7 @@ export abstract class CmsStructureConfigService {
    */
   protected getPageFromConfig(pageId: string): Observable<CmsPageConfig> {
     return of(
-      this.cmsDataConfig.cmsStructure && this.cmsDataConfig.cmsStructure.pages
+      this.cmsDataConfig.cmsStructure?.pages
         ? this.cmsDataConfig.cmsStructure.pages.find(p => p.pageId === pageId)
         : null
     );
@@ -167,11 +167,10 @@ export abstract class CmsStructureConfigService {
     position: string
   ): ContentSlotComponentData[] {
     const components = [];
-    if (slots[position] && slots[position].componentIds) {
+    if (slots[position]?.componentIds) {
       for (const componentId of slots[position].componentIds) {
         if (
-          this.cmsDataConfig.cmsStructure &&
-          this.cmsDataConfig.cmsStructure.components
+          this.cmsDataConfig.cmsStructure?.components
         ) {
           const component = this.cmsDataConfig.cmsStructure.components[
             componentId

@@ -66,6 +66,6 @@ export class CmsMappingService {
 
   private getI18nKeysForComponent(componentType: string): string[] {
     const mappingConfig = this.config.cmsComponents[componentType];
-    return (mappingConfig && mappingConfig.i18nKeys) || [];
+    return (mappingConfig?.i18nKeys) || [];
   }
 }

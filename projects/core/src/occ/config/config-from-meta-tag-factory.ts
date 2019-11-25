@@ -25,7 +25,7 @@ export function mediaServerConfigFromMetaTagFactory(meta: Meta): OccConfig {
 
 function getMetaTagContent(name: string, meta: Meta) {
   const metaTag = meta.getTag(`name="${name}"`);
-  return metaTag && metaTag.content;
+  return metaTag?.content;
 }
 
 export function provideConfigFromMetaTags(): Provider[] {
