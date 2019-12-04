@@ -192,13 +192,12 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
 
     this.checkoutPaymentService.loadPaymentProcessing();
 
+    console.log(isNewPayment);
     if (isNewPayment) {
       this.checkoutPaymentService.createPaymentDetails(details);
     } else if (this.selectedPayment && this.selectedPayment.id === details.id) {
       this.checkoutPaymentService.setPaymentDetails(details);
     }
-
-    this.allowRouting = true;
   }
 
   ngOnDestroy(): void {
