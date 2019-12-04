@@ -7,6 +7,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import {
   Address,
+  CartService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   CheckoutService,
@@ -16,7 +17,6 @@ import {
   RoutingService,
   TranslationService,
   UserPaymentService,
-  CartService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
@@ -189,6 +189,8 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   }): void {
     const details: PaymentDetails = { ...paymentDetails };
     details.billingAddress = billingAddress || this.deliveryAddress;
+
+    this.checkoutPaymentService.loadPaymentProcessing();
 
     if (isNewPayment) {
       this.checkoutPaymentService.createPaymentDetails(details);
