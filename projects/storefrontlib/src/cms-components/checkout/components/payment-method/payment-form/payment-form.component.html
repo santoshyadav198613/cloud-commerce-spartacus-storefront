@@ -1,5 +1,8 @@
 <!-- FORM -->
-<div *ngIf="loading$ | async; else test"><cx-spinner></cx-spinner></div>
+<div *ngIf="loading$ | async; else test" class="cx-spinner">
+  <cx-spinner></cx-spinner>
+</div>
+
 <ng-template #test>
   <div [formGroup]="payment">
     <div class="row">
