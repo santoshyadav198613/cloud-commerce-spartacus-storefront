@@ -2,10 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AnonymousConsentsConfig,
   AnonymousConsentsService,
+  ANONYMOUS_CONSENTS_FEATURE,
   AuthService,
   ConsentTemplate,
   GlobalMessageService,
   GlobalMessageType,
+  isFeatureEnabled,
   isFeatureLevel,
   UserConsentService,
 } from '@spartacus/core';
@@ -39,11 +41,13 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
 
   requiredConsents: string[] = [];
 
-  // TODO(issue:4989) Anonymous consents - remove
-  isAnonymousConsentsEnabled = isFeatureLevel(
+  isAnonymousConsentsEnabled = isFeatureEnabled(
     this.anonymousConsentsConfig,
-    '1.3'
+    ANONYMOUS_CONSENTS_FEATURE
   );
+
+  // TODO(issue:4989) Anonymous consents - remove
+  isLevel13 = isFeatureLevel(this.anonymousConsentsConfig, '1.3');
 
   constructor(
     userConsentService: UserConsentService,
@@ -256,7 +260,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   rejectAll(templates: ConsentTemplate[] = []): void {
     const consentsToWithdraw: ConsentTemplate[] = [];
     templates.forEach(template => {
-      if (this.isConsentGiven(template)) {
+      if (this.userConsentService.isConsentGiven(template.currentConsent)) {
         if (this.isRequiredConsent(template)) {
           return;
         }
@@ -299,18 +303,10 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     return checkTimesLoaded$;
   }
 
-  private isConsentGiven(consentTemplate: ConsentTemplate): boolean {
-    return (
-      Boolean(consentTemplate.currentConsent) &&
-      Boolean(consentTemplate.currentConsent.consentGivenDate) &&
-      !Boolean(consentTemplate.currentConsent.consentWithdrawnDate)
-    );
-  }
-
   allowAll(templates: ConsentTemplate[] = []): void {
     const consentsToGive: ConsentTemplate[] = [];
     templates.forEach(template => {
-      if (this.isConsentWithdrawn(template)) {
+      if (this.userConsentService.isConsentWithdrawn(template.currentConsent)) {
         if (this.isRequiredConsent(template)) {
           return;
         }
@@ -355,14 +351,11 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     return checkTimesLoaded$;
   }
 
-  private isConsentWithdrawn(consentTemplate: ConsentTemplate): boolean {
-    if (Boolean(consentTemplate.currentConsent)) {
-      return Boolean(consentTemplate.currentConsent.consentWithdrawnDate);
-    }
-    return true;
-  }
-
   private isRequiredConsent(template: ConsentTemplate): boolean {
+    if (!this.isAnonymousConsentsEnabled) {
+      return false;
+    }
+
     return (
       Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
       Boolean(
