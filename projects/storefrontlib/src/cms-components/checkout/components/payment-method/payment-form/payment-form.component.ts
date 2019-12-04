@@ -271,7 +271,6 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
-    this.checkoutPaymentService.loadPaymentProcessing();
     this.setPaymentDetails.emit({
       paymentDetails: this.payment.value,
       billingAddress: this.sameAsShippingAddress

@@ -79,14 +79,10 @@ export function reducer(
 
     case CheckoutActions.CREATE_PAYMENT_DETAILS_FAIL: {
       const paymentDetails = action.payload;
-      if (paymentDetails['hasError']) {
-        return {
-          ...state,
-          paymentDetails,
-        };
-      }
-
-      return state;
+      return {
+        ...state,
+        paymentDetails,
+      };
     }
 
     case CheckoutActions.PLACE_ORDER_SUCCESS: {
