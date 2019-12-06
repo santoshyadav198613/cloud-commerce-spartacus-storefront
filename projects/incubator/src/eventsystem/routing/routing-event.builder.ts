@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { PageContext, PageType, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
+
+const BRANDS_CATEGORY = 'brands';
 
 @Injectable({
   providedIn: 'root',
@@ -9,10 +11,16 @@ import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 export class RoutingEventBuilder {
   constructor(protected routingService: RoutingService) {}
 
-  buildProductDetailsPageEvent(): Observable<string> {
+  buildProductDetailsPageVisitEvent(): Observable<string> {
     return this.routerEvents(PageType.PRODUCT_PAGE).pipe(
+      map(context => context.id)
+    );
+  }
+
+  buildCategoryPageVisitEvent(): Observable<string> {
+    return this.routerEvents(PageType.CATEGORY_PAGE).pipe(
       map(context => context.id),
-      distinctUntilChanged()
+      filter(id => id !== BRANDS_CATEGORY)
     );
   }
 

@@ -3,7 +3,10 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { EventEmitter } from '../events/event.emitter';
 import { RoutingEventBuilder } from './routing-event.builder';
-import { ProductDetailsPageVisitedEvent } from './routing-event.model';
+import {
+  CategoryPageVisitedEvent,
+  ProductDetailsPageVisitedEvent,
+} from './routing-event.model';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +25,8 @@ export class RoutingEventService {
 
     attach(
       ProductDetailsPageVisitedEvent,
-      builder.buildProductDetailsPageEvent()
+      builder.buildProductDetailsPageVisitEvent()
     );
+    attach(CategoryPageVisitedEvent, builder.buildCategoryPageVisitEvent());
   }
 }

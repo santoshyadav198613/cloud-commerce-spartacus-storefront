@@ -9,8 +9,11 @@ class MockEventEmitter {
 }
 
 class MockRoutingEventBuilder {
-  buildProductDetailsPageEvent(): Observable<string> {
+  buildProductDetailsPageVisitEvent(): Observable<string> {
     return of('PDP page code: 300938');
+  }
+  buildCategoryPageVisitEvent(): Observable<string> {
+    return of('category code: 577');
   }
 }
 
@@ -39,8 +42,9 @@ describe('RoutingEventService', () => {
     spyOn(eventEmitter, 'attach').and.callThrough();
     spyOn(
       routingEventBuilder,
-      'buildProductDetailsPageEvent'
+      'buildProductDetailsPageVisitEvent'
     ).and.callThrough();
+    spyOn(routingEventBuilder, 'buildCategoryPageVisitEvent').and.callThrough();
   });
 
   it('should inject service', () => {
@@ -51,7 +55,10 @@ describe('RoutingEventService', () => {
   it('should attach events', () => {
     TestBed.get(RoutingEventService);
 
-    expect(eventEmitter.attach).toHaveBeenCalledTimes(1);
-    expect(routingEventBuilder.buildProductDetailsPageEvent).toHaveBeenCalled();
+    expect(eventEmitter.attach).toHaveBeenCalledTimes(2);
+    expect(
+      routingEventBuilder.buildProductDetailsPageVisitEvent
+    ).toHaveBeenCalled();
+    expect(routingEventBuilder.buildCategoryPageVisitEvent).toHaveBeenCalled();
   });
 });
