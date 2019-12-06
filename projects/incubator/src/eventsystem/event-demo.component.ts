@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { CartAddEvent } from './cart';
-import { PageLoadEvent } from './cms';
+import { LoginEvent } from './auth/auth-event.model';
+import { CartAddEvent } from './cart/index';
+import { PageLoadEvent } from './cms/index';
 import { EventService } from './events/event.service';
-import { ClickEvent } from './ui';
+import { ClickEvent } from './ui/index';
 
 /**
  * This demo component adds a click event to the cx-storefront,
@@ -23,5 +24,14 @@ export class EventDemoComponent {
     eventService
       .getCombined(CartAddEvent, PageLoadEvent, ClickEvent)
       .subscribe(console.log);
+
+    eventService
+      .get(LoginEvent)
+      .subscribe(result =>
+        console.log(
+          'This should happen only when the user logs in. If the page refreshes, this should not be printed: ',
+          result
+        )
+      );
   }
 }
