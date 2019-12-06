@@ -1,26 +1,25 @@
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { EventEmitter } from '../events/event.emitter';
 import { AuthEventBuilder } from './auth-event.builder';
 import { AuthEventService } from './auth-event.service';
 
 class MockEventEmitter {
-  attach() {}
+  attach(): void {}
 }
 
 class MockAuthEventBuilder {
-  buildLoginEvent() {
+  buildLoginEvent(): Observable<string> {
     return of('LOGIN');
   }
 }
 
-describe('CartEventService', () => {
+describe('AuthEventService', () => {
   let eventEmitter: EventEmitter;
   let authEventBuilder: AuthEventBuilder;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         AuthEventService,
         {

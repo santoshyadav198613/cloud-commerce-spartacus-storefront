@@ -10,6 +10,7 @@ import { AuthEventModule } from './auth/auth-event.module';
 import { CartEventModule } from './cart/cart-event.module';
 import { CmsEventModule } from './cms/cms-event.module';
 import { EventDemoComponent } from './event-demo.component';
+import { RoutingEventModule } from './routing/index';
 import { UiEventModule } from './ui/index';
 
 /**
@@ -23,6 +24,7 @@ import { UiEventModule } from './ui/index';
     CartEventModule,
     CmsEventModule,
     AuthEventModule,
+    RoutingEventModule,
   ],
   providers: [
     {

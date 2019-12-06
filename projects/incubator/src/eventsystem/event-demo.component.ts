@@ -3,6 +3,7 @@ import { LoginEvent } from './auth/auth-event.model';
 import { CartAddEvent } from './cart/index';
 import { PageLoadEvent } from './cms/index';
 import { EventService } from './events/event.service';
+import { ProductDetailsPageVisitedEvent } from './routing/index';
 import { ClickEvent } from './ui/index';
 
 /**
@@ -33,5 +34,7 @@ export class EventDemoComponent {
           result
         )
       );
+
+    eventService.get(ProductDetailsPageVisitedEvent).subscribe(console.log);
   }
 }
