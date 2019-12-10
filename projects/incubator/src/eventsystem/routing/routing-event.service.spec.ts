@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { Breadcrumb } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { EventEmitter } from '../events/event.emitter';
 import { RoutingEventBuilder } from './routing-event.builder';
@@ -14,6 +15,12 @@ class MockRoutingEventBuilder {
   }
   buildCategoryPageVisitEvent(): Observable<string> {
     return of('category code: 577');
+  }
+  buildCategoryFacetChangeEvent(): Observable<Breadcrumb[]> {
+    return of([]);
+  }
+  buildBrandFacetChangeEvent(): Observable<Breadcrumb[]> {
+    return of([]);
   }
 }
 
@@ -45,6 +52,11 @@ describe('RoutingEventService', () => {
       'buildProductDetailsPageVisitEvent'
     ).and.callThrough();
     spyOn(routingEventBuilder, 'buildCategoryPageVisitEvent').and.callThrough();
+    spyOn(
+      routingEventBuilder,
+      'buildCategoryFacetChangeEvent'
+    ).and.callThrough();
+    spyOn(routingEventBuilder, 'buildBrandFacetChangeEvent').and.callThrough();
   });
 
   it('should inject service', () => {
@@ -55,10 +67,14 @@ describe('RoutingEventService', () => {
   it('should attach events', () => {
     TestBed.get(RoutingEventService);
 
-    expect(eventEmitter.attach).toHaveBeenCalledTimes(2);
+    expect(eventEmitter.attach).toHaveBeenCalledTimes(4);
     expect(
       routingEventBuilder.buildProductDetailsPageVisitEvent
     ).toHaveBeenCalled();
     expect(routingEventBuilder.buildCategoryPageVisitEvent).toHaveBeenCalled();
+    expect(
+      routingEventBuilder.buildCategoryFacetChangeEvent
+    ).toHaveBeenCalled();
+    expect(routingEventBuilder.buildBrandFacetChangeEvent).toHaveBeenCalled();
   });
 });

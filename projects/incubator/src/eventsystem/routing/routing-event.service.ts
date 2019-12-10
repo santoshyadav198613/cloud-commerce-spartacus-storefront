@@ -4,6 +4,8 @@ import { map } from 'rxjs/operators';
 import { EventEmitter } from '../events/event.emitter';
 import { RoutingEventBuilder } from './routing-event.builder';
 import {
+  BrandFacetChangeEvent,
+  CategoryFacetChangeEvent,
   CategoryPageVisitedEvent,
   ProductDetailsPageVisitedEvent,
 } from './routing-event.model';
@@ -28,5 +30,7 @@ export class RoutingEventService {
       builder.buildProductDetailsPageVisitEvent()
     );
     attach(CategoryPageVisitedEvent, builder.buildCategoryPageVisitEvent());
+    attach(CategoryFacetChangeEvent, builder.buildCategoryFacetChangeEvent());
+    attach(BrandFacetChangeEvent, builder.buildBrandFacetChangeEvent());
   }
 }
