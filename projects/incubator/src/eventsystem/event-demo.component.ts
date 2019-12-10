@@ -1,9 +1,14 @@
 import { Component } from '@angular/core';
-import { LoginEvent } from './auth/auth-event.model';
+import { LoginEvent } from './auth/index';
 import { CartAddEvent } from './cart/index';
 import { PageLoadEvent } from './cms/index';
 import { EventService } from './events/event.service';
-import { ProductDetailsPageVisitedEvent } from './routing/index';
+import {
+  BrandFacetChangeEvent,
+  CategoryFacetChangeEvent,
+  CategoryPageVisitedEvent,
+  ProductDetailsPageVisitedEvent,
+} from './routing/index';
 import { ClickEvent } from './ui/index';
 
 /**
@@ -35,6 +40,13 @@ export class EventDemoComponent {
         )
       );
 
-    eventService.get(ProductDetailsPageVisitedEvent).subscribe(console.log);
+    eventService
+      .get(
+        ProductDetailsPageVisitedEvent,
+        CategoryPageVisitedEvent,
+        CategoryFacetChangeEvent,
+        BrandFacetChangeEvent
+      )
+      .subscribe(console.log);
   }
 }

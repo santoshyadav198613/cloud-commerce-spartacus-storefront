@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Action, ActionsSubject } from '@ngrx/store';
 import { AuthActions } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, filter } from 'rxjs/operators';
+import { distinctUntilChanged, filter, mapTo } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +11,10 @@ export class AuthEventBuilder {
   constructor(protected actionsSubject: ActionsSubject) {}
 
   buildLoginEvent(): Observable<boolean> {
-    return this.create([AuthActions.LOGIN]).pipe(distinctUntilChanged());
+    return this.create([AuthActions.LOGIN]).pipe(
+      mapTo(true),
+      distinctUntilChanged()
+    );
   }
 
   private create(actionTypes: string[]): Observable<any> {

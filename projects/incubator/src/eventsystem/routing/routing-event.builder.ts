@@ -42,9 +42,7 @@ export class RoutingEventBuilder {
   buildCategoryFacetChangeEvent(): Observable<Breadcrumb[]> {
     return this.searchResultChangeEvent().pipe(
       withLatestFrom(this.routingService.getPageContext()),
-      filter(([_facets, pageContext]) =>
-        this.isFacetSupportedPage(pageContext)
-      ),
+      filter(([_facets, pageContext]) => this.isFacetPage(pageContext)),
       map(([facets, _pageContext]) =>
         facets.filter(facet => this.isCategoryFacet(facet))
       ),
@@ -56,9 +54,7 @@ export class RoutingEventBuilder {
   buildBrandFacetChangeEvent(): Observable<Breadcrumb[]> {
     return this.searchResultChangeEvent().pipe(
       withLatestFrom(this.routingService.getPageContext()),
-      filter(([_facets, pageContext]) =>
-        this.isFacetSupportedPage(pageContext)
-      ),
+      filter(([_facets, pageContext]) => this.isFacetPage(pageContext)),
       map(([facets, _pageContext]) =>
         facets.filter(facet => this.isBrandFacet(facet))
       ),
@@ -66,7 +62,7 @@ export class RoutingEventBuilder {
     );
   }
 
-  private isFacetSupportedPage(pageContext: PageContext): boolean {
+  private isFacetPage(pageContext: PageContext): boolean {
     return (
       pageContext.type === PageType.CATEGORY_PAGE || pageContext.id === 'search'
     );
