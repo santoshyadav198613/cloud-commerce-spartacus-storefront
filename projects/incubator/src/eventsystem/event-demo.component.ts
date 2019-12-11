@@ -32,7 +32,7 @@ export class EventDemoComponent {
       .subscribe(console.log);
 
     eventService
-      .get(LoginEvent)
+      .observe(LoginEvent)
       .subscribe(result =>
         console.log(
           'This should happen only when the user logs in. If the page refreshes, this should not be printed: ',
@@ -41,7 +41,7 @@ export class EventDemoComponent {
       );
 
     eventService
-      .get(
+      .observeWith(
         ProductDetailsPageVisitedEvent,
         CategoryPageVisitedEvent,
         CategoryFacetChangeEvent,
