@@ -1,7 +1,6 @@
 import { OccConfig } from '../../../config/occ-config';
 
 export function defaultOccVariantConfiguratorConfigFactory(): OccConfig {
-  console.log('Variant Configuration is loaded!');
   return {
     backend: {
       occ: {
@@ -18,6 +17,8 @@ export function defaultOccVariantConfiguratorConfigFactory(): OccConfig {
             'users/${userId}/carts/${cartId}/entries/configurator/cpqconfigurator',
 
           readPriceSummary: '/pricing/${configId}/cpqconfigurator',
+          getConfigurationOverview:
+            'configurationOverview/${configId}/cpqconfigurator',
         },
       },
     },

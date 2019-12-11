@@ -3,11 +3,12 @@ import { async, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CartService } from '../../../cart/facade/cart.service';
 import { Cart } from '../../../model/cart.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { ConfiguratorUiActions } from '../store/actions/';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
 import {
   CONFIGURATION_FEATURE,
@@ -15,10 +16,16 @@ import {
 } from '../store/configuration-state';
 import * as fromReducers from '../store/reducers/index';
 import { ConfiguratorSelectors } from '../store/selectors';
+import { ConfigUtilsService } from '../utils/config-utils.service';
 import { Configurator } from './../../../model/configurator.model';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
+const OWNER_PRODUCT: Configurator.Owner = {
+  id: PRODUCT_CODE,
+
+  type: Configurator.OwnerType.PRODUCT,
+};
 
 const CONFIG_ID = '1234-56-7890';
 const GROUP_ID_1 = '1234-56-7891';
@@ -31,6 +38,7 @@ const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
 const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
+  owner: OWNER_PRODUCT,
   groups: [
     {
       id: GROUP_ID_1,
@@ -55,7 +63,17 @@ const productConfigurationChanged: Configurator.Configuration = {
   configId: CONFIG_ID,
 };
 
-class MockCartService {}
+const cart: Cart = {
+  code: CART_CODE,
+  guid: CART_GUID,
+  user: { uid: OCC_USER_ID_ANONYMOUS },
+};
+
+class MockCartService {
+  getOrCreateCart(): Observable<Cart> {
+    return of(cart);
+  }
+}
 
 function mergeChangesAndGetFirstGroup(
   serviceUnderTest: ConfiguratorCommonsService,
@@ -87,13 +105,14 @@ function callGetOrCreate(serviceUnderTest: ConfiguratorCommonsService) {
   });
   spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
   const configurationObs = serviceUnderTest.getOrCreateConfiguration(
-    PRODUCT_CODE
+    OWNER_PRODUCT
   );
   return configurationObs;
 }
 
 describe('ConfiguratorCommonsService', () => {
   let serviceUnderTest: ConfiguratorCommonsService;
+  let configuratorUtils: ConfigUtilsService;
   let store: Store<StateWithConfiguration>;
 
   beforeEach(async(() => {
@@ -119,6 +138,10 @@ describe('ConfiguratorCommonsService', () => {
     serviceUnderTest = TestBed.get(ConfiguratorCommonsService as Type<
       ConfiguratorCommonsService
     >);
+    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
+      ConfigUtilsService
+    >);
+    configuratorUtils.setOwnerKey(OWNER_PRODUCT);
     store = TestBed.get(Store as Type<Store<StateWithConfiguration>>);
     spyOn(serviceUnderTest, 'createConfigurationExtract').and.callThrough();
   });
@@ -126,6 +149,25 @@ describe('ConfiguratorCommonsService', () => {
   it('should create service', () => {
     expect(serviceUnderTest).toBeDefined();
   });
+
+  it('should call matching action on removeConfiguration', () => {
+    spyOn(store, 'dispatch').and.callThrough();
+    serviceUnderTest.removeConfiguration(productConfiguration.owner);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorActions.RemoveConfiguration(
+        productConfiguration.owner.key
+      )
+    );
+  });
+
+  it('should call matching action on removeUiState', () => {
+    spyOn(store, 'dispatch').and.callThrough();
+    serviceUnderTest.removeUiState(productConfiguration.owner);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorUiActions.RemoveUiState(productConfiguration.owner.key)
+    );
+  });
+
   it('should be able to get configuration from store', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
       of(productConfiguration)
@@ -156,6 +198,18 @@ describe('ConfiguratorCommonsService', () => {
     );
 
     expect(serviceUnderTest.createConfigurationExtract).toHaveBeenCalled();
+  });
+
+  it('should get a overview from occ, accessing the store', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+      of(productConfiguration)
+    );
+    spyOn(store, 'dispatch').and.callThrough();
+    serviceUnderTest.getConfigurationWithOverview(productConfiguration);
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorActions.GetConfigurationOverview(productConfiguration)
+    );
   });
 
   it('should create a new configuration object for changes received, containing one group', () => {
@@ -208,32 +262,47 @@ describe('ConfiguratorCommonsService', () => {
 
   describe('getCartId', () => {
     it('should return cart guid if user is anonymous', () => {
-      const cart: Cart = {
-        code: CART_CODE,
-        guid: CART_GUID,
-        user: { uid: OCC_USER_ID_ANONYMOUS },
-      };
       expect(serviceUnderTest.getCartId(cart)).toBe(CART_GUID);
     });
 
     it('should return cart code if user is not anonymous', () => {
-      const cart: Cart = {
+      const namedCart: Cart = {
         code: CART_CODE,
         guid: CART_GUID,
         user: { name: 'Ulf Becker', uid: 'ulf.becker@rustic-hw.com' },
       };
-      expect(serviceUnderTest.getCartId(cart)).toBe(CART_CODE);
+      expect(serviceUnderTest.getCartId(namedCart)).toBe(CART_CODE);
     });
   });
 
   describe('getUserId', () => {
     it('should return anonymous user id if user is anonymous', () => {
-      const cart: Cart = {
-        code: CART_CODE,
-        guid: CART_GUID,
-        user: { uid: OCC_USER_ID_ANONYMOUS },
-      };
       expect(serviceUnderTest.getUserId(cart)).toBe(OCC_USER_ID_ANONYMOUS);
+    });
+  });
+
+  describe('addToCart', () => {
+    it('should get cart, create addToCartParameters and call addToCart action', () => {
+      const addToCartParams: Configurator.AddToCartParameters = {
+        cartId: CART_GUID,
+        userId: OCC_USER_ID_ANONYMOUS,
+        productCode: PRODUCT_CODE,
+        quantity: 1,
+        configId: CONFIG_ID,
+        ownerKey: productConfiguration.owner.key,
+      };
+
+      spyOn(store, 'dispatch').and.callThrough();
+
+      serviceUnderTest.addToCart(
+        PRODUCT_CODE,
+        CONFIG_ID,
+        productConfiguration.owner.key
+      );
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.AddToCart(addToCartParams)
+      );
     });
   });
 
@@ -244,7 +313,9 @@ describe('ConfiguratorCommonsService', () => {
         y: productConfigurationChanged,
       });
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
-      const configurationObs = serviceUnderTest.getConfiguration(PRODUCT_CODE);
+      const configurationObs = serviceUnderTest.getConfiguration(
+        productConfiguration.owner
+      );
       expect(configurationObs).toBeObservable(obs);
     });
 
@@ -256,7 +327,9 @@ describe('ConfiguratorCommonsService', () => {
       });
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
 
-      const configurationObs = serviceUnderTest.getConfiguration(PRODUCT_CODE);
+      const configurationObs = serviceUnderTest.getConfiguration(
+        productConfiguration.owner
+      );
 
       expect(configurationObs).toBeObservable(
         cold('x-|', {
@@ -300,12 +373,15 @@ describe('ConfiguratorCommonsService', () => {
       spyOn(store, 'dispatch').and.callThrough();
 
       const configurationObs = serviceUnderTest.getOrCreateConfiguration(
-        PRODUCT_CODE
+        OWNER_PRODUCT
       );
 
       expect(configurationObs).toBeObservable(cold('', {}));
       expect(store.dispatch).toHaveBeenCalledWith(
-        new ConfiguratorActions.CreateConfiguration(PRODUCT_CODE)
+        new ConfiguratorActions.CreateConfiguration(
+          OWNER_PRODUCT.key,
+          PRODUCT_CODE
+        )
       );
     });
 
@@ -321,7 +397,7 @@ describe('ConfiguratorCommonsService', () => {
       spyOn(store, 'dispatch').and.callThrough();
 
       const configurationObs = serviceUnderTest.getOrCreateConfiguration(
-        PRODUCT_CODE
+        OWNER_PRODUCT
       );
 
       expect(configurationObs).toBeObservable(cold('', {}));

@@ -271,6 +271,12 @@ export interface OccEndpoints {
    */
   createConfigurationTextfield?: string;
   /**
+   * Endpoint for add textfield configuration to cart
+   *
+   * @member {string}
+   */
+  addConfigurationTextfieldToCart?: string;
+  /**
    * Endpoint to read configuration
    *
    * @member {string}
@@ -295,6 +301,12 @@ export interface OccEndpoints {
    * @member {string}
    */
   readPriceSummary?: string;
+  /**
+   * Endpoint to get configuration Overview
+   *
+   * @member {string}
+   */
+  getConfigurationOverview?: string;
   /**
    * Endpoint for consignment tracking
    *

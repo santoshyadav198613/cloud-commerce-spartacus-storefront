@@ -6,6 +6,10 @@ export const configurator = {
       configId: 'Configuration ID',
       toconfig: 'Configure',
     },
+    tabBar: {
+      configuration: 'Configuration',
+      overview: 'Overview',
+    },
     attribute: {
       caption: 'Attributes',
       notSupported: 'Attibute Type is not supported.',
@@ -25,6 +29,12 @@ export const configurator = {
     },
     addToCart: {
       button: 'Add To Cart',
+      buttonAfterAddToCart: 'Continue To Cart',
+      confirmation: 'Configuration has been added to the cart',
+    },
+    overviewForm: {
+      noAttributeHeader: 'No Results',
+      noAttributeText: 'Remove filter(s) to see Overview content',
     },
   },
 };

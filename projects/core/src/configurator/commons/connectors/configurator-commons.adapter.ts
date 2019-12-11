@@ -9,7 +9,7 @@ export abstract class ConfiguratorCommonsAdapter {
    * @param productCode Root product code
    */
   abstract createConfiguration(
-    productCode: string
+    owner: Configurator.Owner
   ): Observable<Configurator.Configuration>;
 
   /**
@@ -22,7 +22,8 @@ export abstract class ConfiguratorCommonsAdapter {
    */
   abstract readConfiguration(
     configId: string,
-    groupId: string
+    groupId: string,
+    configurationOwner: Configurator.Owner
   ): Observable<Configurator.Configuration>;
 
   /**
@@ -50,6 +51,16 @@ export abstract class ConfiguratorCommonsAdapter {
    * @param configId configuration id
    */
   abstract readPriceSummary(
-    configId: string
+    configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration>;
+
+  /**
+   * Abstract method to get configuration overview
+   *
+   * @param configId configuration id
+   * @param owner configuration owner
+   */
+  abstract getConfigurationOverview(
+    configId: string
+  ): Observable<Configurator.Overview>;
 }

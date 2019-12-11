@@ -7,9 +7,11 @@ import { TestBed } from '@angular/core/testing';
 import { OccConfiguratorVariantAdapter } from '.';
 import {
   CONFIGURATION_NORMALIZER,
+  CONFIGURATION_OVERVIEW_NORMALIZER,
   CONFIGURATION_PRICE_SUMMARY_NORMALIZER,
   CONFIGURATION_SERIALIZER,
 } from '../../../../configurator/commons/connectors/converters';
+import { ConfigUtilsService } from '../../../../configurator/commons/utils/config-utils.service';
 import { Configurator } from '../../../../model/configurator.model';
 import { ConverterService } from '../../../../util/converter.service';
 import { OccEndpointsService } from '../../../services/occ-endpoints.service';
@@ -29,6 +31,10 @@ const groupId = 'GROUP1';
 const productConfiguration: Configurator.Configuration = {
   configId: configId,
   productCode: productCode,
+  owner: {
+    type: Configurator.OwnerType.PRODUCT,
+    id: productCode,
+  },
 };
 
 describe('OccConfigurationVariantAdapter', () => {
@@ -36,6 +42,7 @@ describe('OccConfigurationVariantAdapter', () => {
   let httpMock: HttpTestingController;
   let converterService: ConverterService;
   let occEnpointsService: OccEndpointsService;
+  let configuratorUtils: ConfigUtilsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -57,6 +64,10 @@ describe('OccConfigurationVariantAdapter', () => {
     occConfiguratorVariantAdapter = TestBed.get(
       OccConfiguratorVariantAdapter as Type<OccConfiguratorVariantAdapter>
     );
+    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
+      ConfigUtilsService
+    >);
+    configuratorUtils.setOwnerKey(productConfiguration.owner);
 
     spyOn(converterService, 'pipeable').and.callThrough();
     spyOn(converterService, 'convert').and.callThrough();
@@ -68,7 +79,9 @@ describe('OccConfigurationVariantAdapter', () => {
   });
 
   it('should call createConfiguration endpoint', () => {
-    occConfiguratorVariantAdapter.createConfiguration(productCode).subscribe();
+    occConfiguratorVariantAdapter
+      .createConfiguration(productConfiguration.owner)
+      .subscribe();
 
     const mockReq = httpMock.expectOne(req => {
       return req.method === 'GET' && req.url === 'createConfiguration';
@@ -90,7 +103,7 @@ describe('OccConfigurationVariantAdapter', () => {
 
   it('should call readConfiguration endpoint', () => {
     occConfiguratorVariantAdapter
-      .readConfiguration(configId, groupId)
+      .readConfiguration(configId, groupId, productConfiguration.owner)
       .subscribe();
 
     const mockReq = httpMock.expectOne(req => {
@@ -138,7 +151,9 @@ describe('OccConfigurationVariantAdapter', () => {
   });
 
   it('should call readConfigurationPrice endpoint', () => {
-    occConfiguratorVariantAdapter.readPriceSummary(configId).subscribe();
+    occConfiguratorVariantAdapter
+      .readPriceSummary(productConfiguration)
+      .subscribe();
 
     const mockReq = httpMock.expectOne(req => {
       return req.method === 'PATCH' && req.url === 'readPriceSummary';
@@ -152,6 +167,29 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(mockReq.request.responseType).toEqual('json');
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CONFIGURATION_PRICE_SUMMARY_NORMALIZER
+    );
+  });
+
+  it('should call getConfigurationOverview endpoint', () => {
+    occConfiguratorVariantAdapter
+      .getConfigurationOverview(productConfiguration.configId)
+      .subscribe();
+
+    const mockReq = httpMock.expectOne(req => {
+      return req.method === 'GET' && req.url === 'getConfigurationOverview';
+    });
+
+    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      'getConfigurationOverview',
+      {
+        configId,
+      }
+    );
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      CONFIGURATION_OVERVIEW_NORMALIZER
     );
   });
 });
