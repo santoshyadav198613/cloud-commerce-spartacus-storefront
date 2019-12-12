@@ -75,8 +75,8 @@ describe('RoutingEventBuilder', () => {
   });
 
   describe('buildCategoryPageVisitEvent', () => {
-    it('should emit when CATEGORY_PAGE page is visited', () => {
-      const pdpId = '1234';
+    it('should emit when a category page is visited', () => {
+      const categoryId = '1234';
 
       let result: string;
       service
@@ -85,10 +85,25 @@ describe('RoutingEventBuilder', () => {
       expect(result).toEqual(undefined);
 
       mockRouterEvents.next({
-        id: pdpId,
+        id: categoryId,
         type: PageType.CATEGORY_PAGE,
       });
-      expect(result).toEqual(pdpId);
+      expect(result).toEqual(categoryId);
+    });
+    it('should emit when a brand page is visited', () => {
+      const brandId = 'brand-id';
+
+      let result: string;
+      service
+        .buildCategoryPageVisitEvent()
+        .subscribe(value => (result = value));
+      expect(result).toEqual(undefined);
+
+      mockRouterEvents.next({
+        id: brandId,
+        type: PageType.CATEGORY_PAGE,
+      });
+      expect(result).toEqual(brandId);
     });
   });
 
