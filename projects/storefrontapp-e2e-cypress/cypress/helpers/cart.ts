@@ -21,19 +21,19 @@ export const products: TestProduct[] = [
     code: '1934793',
     type: 'camera',
     name: 'PowerShot A480',
-    price: 99.85,
+    price: 95.1,
   },
   {
     code: '300938',
     type: 'camera',
     name: 'Photosmart E317 Digital Camera',
-    price: 114.12,
+    price: 108.69,
   },
   {
     code: '3470545',
     type: 'camera',
     name: 'EASYSHARE M381',
-    price: 370.72,
+    price: 353.07,
   },
   {
     code: '29925',
