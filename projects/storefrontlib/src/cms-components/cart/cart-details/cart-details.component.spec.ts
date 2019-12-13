@@ -98,7 +98,6 @@ describe('CartDetailsComponent', () => {
         MockCartCouponComponent,
       ],
       providers: [
-        //{ provide: CartService, useValue: mockCartService },
         { provide: CartService, useClass: MockCartService },
         { provide: FeatureConfigService, useValue: mockFeatureConfigService },
         { provide: SelectiveCartService, useValue: mockSelectiveCartService },
@@ -112,11 +111,6 @@ describe('CartDetailsComponent', () => {
     fixture = TestBed.createComponent(CartDetailsComponent);
     component = fixture.componentInstance;
     cartService = TestBed.get(CartService as Type<CartService>);
-
-    // mockCartService.getLoaded.and.returnValue(of(true));
-    // mockCartService.getActive.and.returnValue(of<Cart>({ code: '123' }));
-    //  mockCartService.getCart.and.returnValue(of<Cart>({ code: '123' }));
-    // mockCartService.getEntries.and.returnValue(of<OrderEntry[]>([{}]));
   });
 
   it('should create cart details component', () => {
