@@ -1,6 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Cart, OrderEntry } from '@spartacus/core';
+import { Cart, OccEndpointsService, OrderEntry } from '@spartacus/core';
 import { of, ReplaySubject, Subject } from 'rxjs';
 import {
   CartChangedPushEvent,
@@ -12,18 +13,33 @@ import { ProfileTagEventTracker } from './profiletag-events';
 import { SpartacusEventTracker } from './spartacus-events';
 
 describe('ProfileTagInjector', () => {
+  let httpMock: HttpClient;
+  let postBehaviour: Subject<boolean>;
+  let occEndpointsService: OccEndpointsService;
+  let occEndpointBehaviour: Subject<string>;
   let profileTagInjector: ProfileTagInjector;
   let addTrackerBehavior: Subject<Event>;
   let profileTagEventTrackerMock: ProfileTagEventTracker;
   let cartBehavior: Subject<{ entries: OrderEntry[]; cart: Cart }>;
   let consentBehavior: Subject<boolean>;
   let navigatedBehavior: Subject<boolean>;
+
   let spartacusEventTrackerMock: SpartacusEventTracker;
   function setVariables() {
     cartBehavior = new ReplaySubject<{ entries: OrderEntry[]; cart: Cart }>();
     consentBehavior = new ReplaySubject<boolean>();
     navigatedBehavior = new ReplaySubject<boolean>();
     addTrackerBehavior = new ReplaySubject<Event>();
+    postBehaviour = new ReplaySubject<boolean>();
+    occEndpointBehaviour = new ReplaySubject<string>();
+    httpMock = <HttpClient>(<unknown>{
+      post: jasmine.createSpy('post').and.callFake(_ => postBehaviour),
+    });
+    occEndpointsService = <OccEndpointsService>(<unknown>{
+      getBaseEndpoint: jasmine
+        .createSpy('getBaseEndpoint')
+        .and.callFake(_ => occEndpointBehaviour),
+    });
     spartacusEventTrackerMock = <SpartacusEventTracker>(<unknown>{
       consentGranted: jasmine
         .createSpy('consentGranted')
@@ -34,6 +50,9 @@ describe('ProfileTagInjector', () => {
       cartChanged: jasmine
         .createSpy('cartChanged')
         .and.callFake(_ => cartBehavior),
+      loginSuccessful: jasmine
+        .createSpy('loginSuccessful')
+        .and.callFake(_ => postBehaviour),
     });
     profileTagEventTrackerMock = <ProfileTagEventTracker>(<unknown>{
       addTracker: jasmine
@@ -58,6 +77,14 @@ describe('ProfileTagInjector', () => {
         {
           provide: SpartacusEventTracker,
           useValue: spartacusEventTrackerMock,
+        },
+        {
+          provide: HttpClient,
+          useValue: httpMock,
+        },
+        {
+          provide: OccEndpointsService,
+          useValue: occEndpointsService,
         },
       ],
     });
@@ -115,5 +142,15 @@ describe('ProfileTagInjector', () => {
     expect(
       profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
     ).toHaveBeenCalledWith(new NavigatedPushEvent());
+  });
+
+  it('Should notify profile tag of successful login', () => {
+    const subscription = profileTagInjector.track().subscribe();
+    addTrackerBehavior.next(new CustomEvent('test'));
+    postBehaviour.next(true);
+    occEndpointBehaviour.next('url');
+    subscription.unsubscribe();
+    expect(httpMock.post).toHaveBeenCalled();
+    expect(occEndpointsService.getBaseEndpoint).toHaveBeenCalled();
   });
 });
