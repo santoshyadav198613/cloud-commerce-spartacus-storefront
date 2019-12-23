@@ -71,11 +71,12 @@ export class ProfileTagInjector {
 
   private notifyEcOfLoginSuccessful(): Observable<boolean> {
     return this.spartacusEventTracker.loginSuccessful().pipe(
-      tap(_ => {
-        this.http.post(
+      switchMap(_ => {
+        console.log(`### sending to post`);
+        return this.http.post(
           `${this.occEndpoints.getBaseEndpoint()}/loginnotification`,
           {}
-        );
+        ).pipe(mapTo(true));
       })
     );
   }
