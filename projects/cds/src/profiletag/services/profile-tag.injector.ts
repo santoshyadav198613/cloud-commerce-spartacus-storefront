@@ -72,7 +72,6 @@ export class ProfileTagInjector {
   private notifyEcOfLoginSuccessful(): Observable<boolean> {
     return this.spartacusEventTracker.loginSuccessful().pipe(
       switchMap(_ => {
-        console.log(`### sending to post`);
         return this.http.post(
           `${this.occEndpoints.getBaseEndpoint()}/loginnotification`,
           {}
