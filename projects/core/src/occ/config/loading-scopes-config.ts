@@ -9,10 +9,7 @@ export interface LoadingScopeConfig {
   maxAge?: number;
 }
 
-export interface LoadingScopesConfig {
-  [scope: string]: LoadingScopeConfig;
-}
-
+// tslint:disable-next-line:no-empty-interface
 export interface LoadingScopes {
-  [model: string]: LoadingScopesConfig;
+  // [model: string]: LoadingScopesConfig;
 }

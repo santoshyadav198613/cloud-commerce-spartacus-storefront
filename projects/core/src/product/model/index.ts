@@ -1,2 +1,3 @@
+export * from './product-scope';
 export * from './search-config';
-export * from './product-scope.js';
+
