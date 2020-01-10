@@ -1,0 +1,8 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "SpartacusSchematics",
+  "title": "Spartacus Schematics",
+  "type": "object",
+  "properties": {},
+  "required": []
+}

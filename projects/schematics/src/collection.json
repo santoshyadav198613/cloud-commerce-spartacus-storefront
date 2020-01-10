@@ -31,6 +31,12 @@
       "factory": "./add-cms-component/index#addCmsComponent",
       "schema": "./add-cms-component/schema.json",
       "aliases": ["cms"]
+    },
+    "add-new-integration": {
+      "description": "Add new shellapp and library for new integrations",
+      "factory": "./add-new-integration/index#addNewIntegration",
+      "schema": "./add-new-integration/schema.json",
+      "aliases": ["integ"]
     }
   }
 }
