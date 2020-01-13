@@ -20,17 +20,29 @@ function replaceAllOldShellAppName(
 }
 
 export function addNewIntegration(options: CxNewIntegration): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const OLDSHELLAPP = 'storefrontapp';
     const NEWSHELLAPP = `${OLDSHELLAPP}-${options.newProject}`;
 
     const buffer = tree.read('angular.json');
 
+    console.log('buffer1', buffer);
+
     if (buffer) {
       const angularJsonFileObject = JSON.parse(buffer.toString('utf-8'));
+      console.log('inside angJsonObj', angularJsonFileObject);
       const oldProjectObject = angularJsonFileObject.projects[OLDSHELLAPP];
-
+      console.log('inside2 oldProj', oldProjectObject);
       replaceAllOldShellAppName(oldProjectObject, OLDSHELLAPP, NEWSHELLAPP);
+
+      tree.overwrite(
+        'angular.json',
+        JSON.stringify(angularJsonFileObject, null, 2)
+      );
+      context.logger.log(
+        'info',
+        `✅️ Modified build scripts in angular.json file.`
+      );
     }
 
     return tree;
