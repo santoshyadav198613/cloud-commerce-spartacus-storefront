@@ -1,6 +1,5 @@
-export interface NewIntegrationSchema {
-  /**
-   * required new project name needs to be given
-   */
-  projectName: string;
+import { Schema } from '../add-spartacus/schema';
+
+export interface CxNewIntegration extends Schema {
+  newProject: string;
 }
