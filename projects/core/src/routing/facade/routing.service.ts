@@ -55,9 +55,17 @@ export class RoutingService {
    * @param extras: Represents the extra options used during navigation.
    */
   go(commands: UrlCommands, query?: object, extras?: NavigationExtras): void {
-    const path = this.semanticPathService.transform(commands);
+    return this.navigate(this.getPath(commands), query, extras);
+  }
 
-    return this.navigate(path, query, extras);
+  /**
+   * Resolves the semantic path for the given `UrlCommands`, this is only a
+   * convenience proxy method for the `SemanticPathService.transform`.
+   *
+   * @param commands: url commands
+   */
+  getPath(commands: UrlCommands): any[] {
+    return this.semanticPathService.transform(commands);
   }
 
   /**
