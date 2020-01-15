@@ -1,6 +1,14 @@
 <nav>
   <span *ngFor="let crumb of crumbs$ | async">
-    <a [routerLink]="crumb.link" [innerHTML]="crumb.label"></a>
+    <a
+      *ngIf="crumb.link; else withoutLink"
+      [routerLink]="crumb.link"
+      [queryParams]="crumb.queryParams"
+      [innerHTML]="crumb.label"
+    ></a>
+    <ng-template #withoutLink>
+      <a>{{ crumb.label }}</a>
+    </ng-template>
   </span>
 </nav>
 <h1>{{ title$ | async }}</h1>

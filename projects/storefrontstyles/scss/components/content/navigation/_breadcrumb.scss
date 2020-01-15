@@ -19,7 +19,14 @@
       }
       a {
         color: inherit;
-        padding: 5px 5px;
+        padding: 5px;
+        &:not([href]) {
+          color: var(--cx-color-primary);
+          pointer-events: none;
+        }
+        &:not([href]):not([tabindex]) {
+          color: var(--cx-color-primary);
+        }
       }
     }
   }
