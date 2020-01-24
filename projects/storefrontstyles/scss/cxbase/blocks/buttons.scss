@@ -3,7 +3,7 @@
 
 button {
   &:focus {
-    outline: none;
+    // outline: none;
   }
 
   &.link {
@@ -73,9 +73,9 @@ button {
       }
     }
 
-    &:focus {
-      box-shadow: 0 0 0 0.2em rgba(var(--cx-color-primary), 0.5);
-    }
+    // &:focus {
+    //   box-shadow: 0 0 0 0.2em rgba(var(--cx-color-primary), 0.5);
+    // }
 
     &:not(:disabled):not(.disabled):active,
     &:not(:disabled):not(.disabled).active {
@@ -83,9 +83,9 @@ button {
       border-color: var(--cx-color-primary);
       @include cx-darken(88);
 
-      &:focus {
-        box-shadow: 0 0 0 0.2em rgba(var(--cx-color-primary), 0.5);
-      }
+      // &:focus {
+      //   box-shadow: 0 0 0 0.2em rgba(var(--cx-color-primary), 0.5);
+      // }
     }
   }
 
@@ -116,10 +116,10 @@ button {
       }
     }
 
-    &:focus {
-      //this here below will not work unles cx global colors are initially declared in rbg
-      box-shadow: 0 0 0 0.2em rgba(var(--cx-color-primary), 0.5);
-    }
+    // &:focus {
+    //   //this here below will not work unles cx global colors are initially declared in rbg
+    //   box-shadow: 0 0 0 0.2em rgba(var(--cx-color-primary), 0.5);
+    // }
 
     &:not(:disabled):not(.disabled):active,
     &:not(:disabled):not(.disabled).active {
@@ -127,10 +127,10 @@ button {
       border-color: var(--cx-color-secondary);
       @include cx-darken(84);
 
-      &:focus {
-        //this here below will not work unles cx global colors are initially declared in rbg
-        box-shadow: 0 0 0 0.2em rgba(var(--cx-color-primary), 0.5);
-      }
+      // &:focus {
+      //   //this here below will not work unles cx global colors are initially declared in rbg
+      //   box-shadow: 0 0 0 0.2em rgba(var(--cx-color-primary), 0.5);
+      // }
     }
   }
 
@@ -281,9 +281,9 @@ $theme: '' !default;
   .btn,
   .btn-primary,
   .btn-secondary {
-    &:focus {
-      outline: var(--cx-color-visual-focus) auto 6px;
-      outline-offset: 2px;
-    }
+    // &:focus {
+    //   outline: var(--cx-color-visual-focus) auto 6px;
+    //   outline-offset: 2px;
+    // }
   }
 }

@@ -96,10 +96,10 @@ label {
   input[role='radio'] {
     display: inline-block;
 
-    &:focus {
-      box-shadow: 0px 0px 0px 3px var(--cx-color-light);
-      border-color: var(--cx-color-secondary);
-    }
+    // &:focus {
+    //   box-shadow: 0px 0px 0px 3px var(--cx-color-light);
+    //   border-color: var(--cx-color-secondary);
+    // }
   }
 
   input[type='checkbox'] {

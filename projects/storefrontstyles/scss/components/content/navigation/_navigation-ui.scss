@@ -126,6 +126,11 @@
         > h5 {
           margin-top: 3px;
           padding: 20px 15px 25px 0;
+          &:focus {
+            z-index: 1;
+            position: relative;
+            overflow: visible;
+          }
         }
         // first level headings will be bold in desktop
         nav > h5 {

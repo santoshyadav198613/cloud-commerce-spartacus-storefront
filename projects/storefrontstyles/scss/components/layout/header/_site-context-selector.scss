@@ -30,14 +30,16 @@ $caretSize: 7px;
     color: inherit;
     background-color: transparent;
     border: 0;
+    //remove vendor prefixes below
 
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
 
+    //and sass variable?
     padding-right: $caretSize * 2;
 
-    outline: none;
+    // outline: none;
 
     position: relative;
     z-index: 1;
