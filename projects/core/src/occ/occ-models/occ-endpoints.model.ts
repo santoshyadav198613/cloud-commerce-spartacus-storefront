@@ -392,11 +392,29 @@ export interface OccEndpoints {
    */
   costCenters?: string;
   /**
+   * Endpoint for all costCenters
+   *
+   * @member {string}
+   */
+  costCentersAll?: string;
+  /**
    * Endpoint for costCenter
    *
    * @member {string}
    */
   costCenter?: string;
+  /**
+   * Endpoint for budgets assigned to costCenter
+   *
+   * @member {string}
+   */
+  costCenterBudgets?: string;
+  /**
+   * Endpoint for budget assigned to costCenter
+   *
+   * @member {string}
+   */
+  costCenterBudget?: string;
   /**
    * Endpoint for permission list
    *

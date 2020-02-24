@@ -1,0 +1,8 @@
+<div class="cx-header">
+  <h3>{{ 'costCenterForm.create' | cxTranslate }}</h3>
+</div>
+<cx-cost-center-form
+  [actionBtnLabel]="'costCenterForm.create' | cxTranslate"
+  (submitCostCenter)="createCostCenter($event)"
+>
+</cx-cost-center-form>
